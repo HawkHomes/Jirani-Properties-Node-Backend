@@ -74,9 +74,10 @@ export const createHouse: (
 		});
 
 	const newHouse = new House();
-	newHouse.additional_info = additional_info;
 	newHouse.total_available = total_available;
-	if (features.length > 0)
+	newHouse.additional_info = additional_info;
+
+	if (features && features.length > 0)
 		newHouse.features = await AppDataSource.manager
 			.getRepository(Feature)
 			.createQueryBuilder('features')
@@ -171,7 +172,7 @@ export const updateHouse: (
 			});
 	}
 
-	if (features) {
+	if (features && features.length > 0) {
 		const featuresFound = await AppDataSource.manager
 			.getRepository(Feature)
 			.createQueryBuilder('feature')
