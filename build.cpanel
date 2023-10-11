@@ -1,0 +1,15 @@
+#/bin/env bash
+
+set +
+
+_() {
+    cp ./src/.env.cpanel ./production/.env
+    cp wait-for-it.sh ./production/
+    cp package.json ./production/
+    # cp -rf ./node_modules ./production
+    cp Dockerfile-prod ./production/Dockerfile
+
+    zip -r build.zip ./production/ && rm -rf ./production/
+}
+
+_

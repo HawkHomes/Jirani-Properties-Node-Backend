@@ -1,0 +1,512 @@
+Sep 2023, 42:59 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/reviews/add] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 01:17 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/reviews/add] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 13:52 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/reviews/add] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 26:47 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/reviews/add] Not Found: Message->undefined: Stack->undefined 
+Sep 2023, 28:47 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/reviews/add] Not Found: Message->undefined: Stack->undefined 
+Sep 2023, 33:17 [:/api/properties/82f0e67c-a46e-42fb-9b38-88622a837dcf] Not Found: Message->undefined: Stack->undefined 
+Sep 2023, 33:34 [:/api/properties/ddjdjdj/houses?year_built[min]=2005&year_built[max]=2023&features[]=0fa4feb1-4480-4d6c-8c3e-b8005fab2a4a&features[]=2ec0d4d4-5789-4216-b17b-7c0eaafacddf&category[]=95b2f2fa-6872-477e-aa68-511402036248&type[]=5858b8d9-a1a0-4daa-975e-feddf6f76371&cost[min]=3500&cost[max]=3000000&pid=ddjdjdj&id=44901b18-4c42-4d4c-a455-159586c3ba52] Bad Request: Message->invalid input syntax for type uuid: "ddjdjdj": Stack->QueryFailedError: invalid input syntax for type uuid: "ddjdjdj"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3789:25)
+    at async SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:29)
+    at async SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3457:26)
+    at async SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:36) 
+Sep 2023, 59:00 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 01:34 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 08:04 [:/api/users/activate/24141/] Bad Request: Message->Expected "payload" to be a plain object.: Stack->Error: Expected "payload" to be a plain object.
+    at validate (/backend/node_modules/jsonwebtoken/sign.js:44:11)
+    at validatePayload (/backend/node_modules/jsonwebtoken/sign.js:66:10)
+    at Object.module.exports [as sign] (/backend/node_modules/jsonwebtoken/sign.js:144:7)
+    at genRefreshToken (/backend/src/utils/common.ts:138:6)
+    at /backend/src/controllers/user.ts:187:40
+    at step (/backend/src/controllers/user.ts:44:23)
+    at Object.next (/backend/src/controllers/user.ts:25:53)
+    at fulfilled (/backend/src/controllers/user.ts:16:58)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) 
+Sep 2023, 11:14 [:/api/users/activate/24141/] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 18:23 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 18:52 [:/api/users/activate/737251/] Bad Request: Message->Expected "payload" to be a plain object.: Stack->Error: Expected "payload" to be a plain object.
+    at validate (/backend/node_modules/jsonwebtoken/sign.js:44:11)
+    at validatePayload (/backend/node_modules/jsonwebtoken/sign.js:66:10)
+    at Object.module.exports [as sign] (/backend/node_modules/jsonwebtoken/sign.js:144:7)
+    at genRefreshToken (/backend/src/utils/common.ts:138:6)
+    at /backend/src/controllers/user.ts:188:40
+    at step (/backend/src/controllers/user.ts:44:23)
+    at Object.next (/backend/src/controllers/user.ts:25:53)
+    at fulfilled (/backend/src/controllers/user.ts:16:58)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) 
+Sep 2023, 22:48 [:/api/users/activate/706903/] Bad Request: Message->Cannot find alias for relation at profile: Stack->Error: Cannot find alias for relation at profile
+    at UpdateQueryBuilder.findColumnsForPropertyPath (/backend/node_modules/src/query-builder/QueryBuilder.ts:1305:27)
+    at UpdateQueryBuilder.getPredicates (/backend/node_modules/src/query-builder/QueryBuilder.ts:1454:26)
+    at getPredicates.next (<anonymous>)
+    at UpdateQueryBuilder.getWhereCondition (/backend/node_modules/src/query-builder/QueryBuilder.ts:1621:50)
+    at UpdateQueryBuilder.where (/backend/node_modules/src/query-builder/UpdateQueryBuilder.ts:224:32)
+    at EntityManager.update (/backend/node_modules/src/entity-manager/EntityManager.ts:790:18)
+    at /backend/src/controllers/user.ts:206:32
+    at step (/backend/src/controllers/user.ts:44:23)
+    at Object.next (/backend/src/controllers/user.ts:25:53)
+    at fulfilled (/backend/src/controllers/user.ts:16:58) 
+Sep 2023, 29:53 [:/api/users/?limit=0&page=1] Permission Denied: Message->undefined: Stack->undefined 
+Sep 2023, 33:55 [:/api/users/activate/903936/] Bad Request: Message->undefined: Stack->undefined 
+Sep 2023, 48:40 [:/api/users/activate/903936/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 02:37 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&category[]=7223af2b-802d-4ef7-8be6-4fd01dbc57fa&name=Texas&year_built[max]=2030&year_built[min]=2010&land_size=10&sort=ASC&features[]=0dead613-2ab7-4703-9737-deaabe5a0ba0&total_available=5&agency=adae3831-dbb3-4c5a-a212-e918e4d6b4a7&type[]=7223af2b-802d-4ef7-8be6-4fd01dbc57fa] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 03:52 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type=Offices&land_size[max]=1000] Bad Request: Message->value.map is not a function: Stack->TypeError: value.map is not a function
+    at /backend/node_modules/typeorm/src/driver/postgres/PostgresDriver.ts:844:26
+    at String.replace (<anonymous>)
+    at PostgresDriver.escapeQueryWithParameters (/backend/node_modules/typeorm/src/driver/postgres/PostgresDriver.ts:833:19)
+    at SelectQueryBuilder.getQueryAndParameters (/backend/node_modules/src/query-builder/QueryBuilder.ts:509:39)
+    at SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3745:40)
+    at SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:40)
+    at SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3482:18)
+    at SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:47)
+    at /backend/src/controllers/house.ts:364:4
+    at step (/backend/src/controllers/house.ts:44:23) 
+Oct 2023, 05:18 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type=Offices&land_size[max]=1000] Internal Server Error: Message->value.map is not a function: Stack->TypeError: value.map is not a function
+    at /backend/node_modules/typeorm/src/driver/postgres/PostgresDriver.ts:844:26
+    at String.replace (<anonymous>)
+    at PostgresDriver.escapeQueryWithParameters (/backend/node_modules/typeorm/src/driver/postgres/PostgresDriver.ts:833:19)
+    at SelectQueryBuilder.getQueryAndParameters (/backend/node_modules/src/query-builder/QueryBuilder.ts:509:39)
+    at SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3745:40)
+    at SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:40)
+    at SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3482:18)
+    at SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:47)
+    at /backend/src/controllers/house.ts:364:4
+    at step (/backend/src/controllers/house.ts:44:23) 
+Oct 2023, 07:11 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=&land_size[max]=1000] Internal Server Error: Message->invalid input syntax for type uuid: "": Stack->QueryFailedError: invalid input syntax for type uuid: ""
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3789:25)
+    at async SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:29)
+    at async SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3457:26)
+    at async SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:36) 
+Oct 2023, 12:04 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=&land_size[max]=1000] Internal Server Error: Message->invalid input syntax for type uuid: "": Stack->QueryFailedError: invalid input syntax for type uuid: ""
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3789:25)
+    at async SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:29)
+    at async SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3457:26)
+    at async SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:36) 
+Oct 2023, 12:12 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=%22ddjjdjd%22&land_size[max]=1000] Internal Server Error: Message->invalid input syntax for type uuid: ""ddjjdjd"": Stack->QueryFailedError: invalid input syntax for type uuid: ""ddjjdjd""
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3789:25)
+    at async SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:29)
+    at async SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3457:26)
+    at async SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:36) 
+Oct 2023, 12:57 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=%22ddjjdjd%22&land_size[max]=1000] Internal Server Error: Message->invalid input syntax for type uuid: ""ddjjdjd"": Stack->QueryFailedError: invalid input syntax for type uuid: ""ddjjdjd""
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3789:25)
+    at async SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:29)
+    at async SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3457:26)
+    at async SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:36) 
+Oct 2023, 15:42 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=%22ddjjdjd%22&land_size[max]=1000] Internal Server Error: Message->invalid input syntax for type uuid: ""ddjjdjd"": Stack->QueryFailedError: invalid input syntax for type uuid: ""ddjjdjd""
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async SelectQueryBuilder.loadRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3789:25)
+    at async SelectQueryBuilder.getRawMany (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1626:29)
+    at async SelectQueryBuilder.executeEntitiesAndRawResults (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:3457:26)
+    at async SelectQueryBuilder.getManyAndCount (/backend/node_modules/src/query-builder/SelectQueryBuilder.ts:1873:36) 
+Oct 2023, 16:25 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=truedd&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=%22ddjjdjd%22&land_size[max]=1000] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 19:19 [:/api/houses?cost[min]=100&cost[max]=3400&for_sale=true&address=Ngala&name=Texas&year_built[max]=2020&year_built[min]=2010&land_size[min]=10&sort=ASC&total_available=5&type[]=%22ddjjdjd%22&land_size[max]=1000] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 16:34 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 48:30 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 02:53 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 03:00 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 10:29 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 11:24 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 14:00 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 17:30 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 23:46 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 24:04 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 26:06 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 26:24 [:/api/users/create/] Internal Server Error: Message->null value in column "first_name" violates not-null constraint: Stack->QueryFailedError: null value in column "first_name" violates not-null constraint
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 27:41 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 36:39 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 36:48 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 36:53 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 37:00 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 37:06 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 38:08 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 38:12 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 38:20 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 38:24 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 42:16 [:/api/users/update/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 43:11 [:/api/users/profile/] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 47:54 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32e/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 48:05 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32e/] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 48:39 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32e/] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 48:42 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32/] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 48:50 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32/] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 49:30 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32e/] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 49:54 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 51:35 [:/api/users/62c7f576-9b09-4f62-b46c-a03d8106e32e/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 52:09 [:/?otp=627095] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 54:03 [:/api/users?otp=617702] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 54:49 [:/api/users/617702/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 55:24 [:/api/users/activate/617702/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 55:30 [:/api/users/activate/617702] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 56:32 [:/api/users/activate/617702] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 56:33 [:/api/users/activate/617702] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 57:08 [:/api/users/activate/617702/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 57:54 [:/api/users/?limit=0&page=1] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 00:15 [:/api/users/?limit=0&page=1] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 01:22 [:/api/users/signin/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 01:28 [:/api/users/create/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 07:08 [:/api/users/delete/] Internal Server Error: Message->Entity "User" does not have delete date columns.: Stack->MissingDeleteDateColumnError: Entity "User" does not have delete date columns.
+    at SoftDeleteQueryBuilder.createUpdateExpression (/backend/node_modules/src/query-builder/SoftDeleteQueryBuilder.ts:453:19)
+    at SoftDeleteQueryBuilder.getQuery (/backend/node_modules/src/query-builder/SoftDeleteQueryBuilder.ts:48:24)
+    at SoftDeleteQueryBuilder.getQueryAndParameters (/backend/node_modules/src/query-builder/QueryBuilder.ts:507:28)
+    at SoftDeleteQueryBuilder.execute (/backend/node_modules/src/query-builder/SoftDeleteQueryBuilder.ts:105:44)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) 
+Oct 2023, 08:28 [:/api/users/delete/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 08:35 [:/api/users/create/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 08:44 [:/api/users/create/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 09:00 [:/api/users/create/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 28:03 [:/api/users?email_addr=duncansantiago18@gmail.com&id_no=3399339&limit=10&page=1] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 28:19 [:/api/users/signin/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 28:25 [:/api/users/signin/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 30:42 [:/api/users/signin/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 28:05 [:/api/users/?limit=0&page=1] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 55:02 [:/api/agencies/9d674bc3-2b6a-49ce-a684-5244b7f0c30e/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 55:07 [:/api/agencies/9d674bc3-2b6a-49ce-a684-5244b7f0c30/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 55:26 [:/api/agencies/update/2c1ac52c-1fb9-46fa-85ff-5b3c615ffbc] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 55:50 [:/api/agencies/delete/2c1ac52c-1fb9-46fa-85ff-5b3c615ffbc] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 56:04 [:/api/agencies/94f63db0-ff1e-45fc-8262-b94a463f67d7/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 56:14 [:/api/properties/636608b8-4aaa-4d50-ba81-c65470713988/reviews/add] Permission Denied: Message->undefined: Stack->undefined 
+Oct 2023, 57:33 [:/api/categories/00f7e6fc-b2ac-4a8f-ac6d-d677f5f6c7a2/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 57:37 [:/api/categories/00f7e6fc-b2ac-4a8f-ac6d-d677f5f6c7a2/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 57:41 [:/api/categories/00f7e6fc-b2ac-4a8f-ac6d-d677f5f6c7a/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 58:04 [:/api/categories/update/c0231fc5-48de-4b4a-9d11-fb1af0d2cb5] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 58:29 [:/api/categories/delete/2c11c54b-5a52-4246-a97a-c06e7c16231f] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 58:33 [:/api/categories/delete/2c11c54b-5a52-4246-a97a-c06e7c16231] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 00:03 [:/api/categories/delete/7aabc5e6-7fb2-44b6-a885-ef00cfb149d9] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 00:05 [:/api/categories/delete/7aabc5e6-7fb2-44b6-a885-ef00cfb149d9] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 00:52 [:/api/features/0dead613-2ab7-4703-9737-deaabe5a0ba/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 01:16 [:/api/features/update/d3886764-0b64-4098-ad19-fe136cacf14] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 02:01 [:/api/features/delete/2e2c1c23-5503-4ff1-b17c-ef2e80e13b1] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 03:44 [:/api/propertytypes/create] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 10:17 [:/api/propertytypes/create] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 11:38 [:/api/propertytypes/create] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 11:43 [:/api/propertytypes/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 14:46 [:/api/propertytypes/update/5586b465-95cb-4719-813a-468232c4bd15] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 18:18 [:/api/propertytypes/update/5586b465-95cb-4719-813a-468232c4bd1] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 21:40 [:/api/propertytypes?name=Offices&limit=10&page=1] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 21:57 [:/api/propertytypes?name[]=Offices&limit=10&page=1] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 26:37 [:/api/propertytypes?name[]=Offices&limit=10&page=1] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 27:29 [:/api/propertytypes/5586b465-95cb-4719-813a-468232c4bd] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 28:28 [:/api/propertytypes/delete/28d49e89-fc09-459c-a039-37c9ebace07] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 28:40 [:/api/propertytypes/delete/03018481-fd9f-4bbf-93cd-6b082389dc73] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 29:14 [:/api/properties/create/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 29:28 [:/api/properties/create/] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 30:29 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 30:37 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 30:48 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 08:04 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 08:48 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:02 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:15 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:22 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:28 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:34 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:44 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:48 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 09:52 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 12:21 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 12:35 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 12:44 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 12:52 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 13:33 [:/api/properties/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 13:42 [:/api/propertytypes/create] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 14:12 [:/api/propertytypes/03018481-fd9f-4bbf-93cd-6b082389dc7] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 14:24 [:/api/propertytypes/update/03018481-fd9f-4bbf-93cd-6b082389dc73] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 14:39 [:/api/propertytypes/delete/03018481-fd9f-4bbf-93cd-6b082389dc7] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 14:45 [:/api/propertytypes/delete/b0bc9b67-2ae2-4c92-b9ee-b137d25d3713] Internal Server Error: Message->update or delete on table "PropertyType" violates foreign key constraint "FK_2ad6ed857bd68b7eb879cae3e66" on table "Properties": Stack->QueryFailedError: update or delete on table "PropertyType" violates foreign key constraint "FK_2ad6ed857bd68b7eb879cae3e66" on table "Properties"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async DeleteQueryBuilder.execute (/backend/node_modules/src/query-builder/DeleteQueryBuilder.ts:77:33) 
+Oct 2023, 24:51 [:/api/propertytypes/delete/b0bc9b67-2ae2-4c92-b9ee-b137d25d3713] Internal Server Error: Message->update or delete on table "PropertyType" violates foreign key constraint "FK_2ad6ed857bd68b7eb879cae3e66" on table "Properties": Stack->QueryFailedError: update or delete on table "PropertyType" violates foreign key constraint "FK_2ad6ed857bd68b7eb879cae3e66" on table "Properties"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async DeleteQueryBuilder.execute (/backend/node_modules/src/query-builder/DeleteQueryBuilder.ts:77:33) 
+Oct 2023, 26:02 [:/api/propertytypes/delete/b0bc9b67-2ae2-4c92-b9ee-b137d25d3713] Internal Server Error: Message->update or delete on table "PropertyType" violates foreign key constraint "FK_2ad6ed857bd68b7eb879cae3e66" on table "Properties": Stack->QueryFailedError: update or delete on table "PropertyType" violates foreign key constraint "FK_2ad6ed857bd68b7eb879cae3e66" on table "Properties"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async DeleteQueryBuilder.execute (/backend/node_modules/src/query-builder/DeleteQueryBuilder.ts:77:33) 
+Oct 2023, 29:03 [:/api/propertytypes/delete/b0bc9b67-2ae2-4c92-b9ee-b137d25d3713] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 29:19 [:/api/propertytypes/b0bc9b67-2ae2-4c92-b9ee-b137d25d3713] Not Found: Message->undefined: Stack->undefined 
+Oct 2023, 54:30 [:/api/users/create/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_70411ea127244d5208714776e11"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 05:16 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 05:26 [:/api/users/delete/28f1b9c1-b5bb-4b82-abf6/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 51:46 [:/api/users/delete/4a938ba4-a6dd-4e06-9599-02d706c22b00/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 02:12 [:/api/users/delete/ad0ace72-63b3-4b81-af15-d873ae8598ac/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 55:06 [:/api/users/update/] Unauthorized: Message->undefined: Stack->undefined 
+Oct 2023, 55:15 [:/api/users/create/] Bad Request: Message->undefined: Stack->undefined 
+Oct 2023, 47:38 [:/api/users/reset] Internal Server Error: Message->null value in column "user" violates not-null constraint: Stack->QueryFailedError: null value in column "user" violates not-null constraint
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33) 
+Oct 2023, 48:41 [:/api/users/reset] Internal Server Error: Message->null value in column "user" violates not-null constraint: Stack->QueryFailedError: null value in column "user" violates not-null constraint
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33) 
+Oct 2023, 49:31 [:/api/users/reset] Internal Server Error: Message->Cannot read properties of undefined (reading 'phone'): Stack->TypeError: Cannot read properties of undefined (reading 'phone')
+    at PasswordResetSubscrier.afterInsert (/backend/src/subscribers/password-reset.ts:37:44)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/query-builder/InsertQueryBuilder.ts:189:45
+    at Array.forEach (<anonymous>)
+    at InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:188:27)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) 
+Oct 2023, 50:58 [:/api/users/reset] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_8e56c5bd13563bf5b0c91a9c5f6": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_8e56c5bd13563bf5b0c91a9c5f6"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33) 
+Oct 2023, 51:12 [:/api/users/reset] Internal Server Error: Message->Cannot read properties of undefined (reading 'phone'): Stack->TypeError: Cannot read properties of undefined (reading 'phone')
+    at PasswordResetSubscrier.afterInsert (/backend/src/subscribers/password-reset.ts:37:44)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/query-builder/InsertQueryBuilder.ts:189:45
+    at Array.forEach (<anonymous>)
+    at InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:188:27)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) 
+Oct 2023, 43:37 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:37:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 45:20 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:37:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 47:12 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:37:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 50:29 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:37:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 52:32 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:34:40)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 10:00 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:37:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 13:26 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:37:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 24:04 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:64:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 26:38 [:/api/users/reset/complete] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterInsert (/backend/src/subscribers/password-reset.ts:64:36)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:387:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterInsertEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:382:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:299:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:298:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 34:23 [:/api/users/reset/] Internal Server Error: Message->null value in column "id" violates not-null constraint: Stack->QueryFailedError: null value in column "id" violates not-null constraint
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 35:11 [:/api/users/reset/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_8e56c5bd13563bf5b0c91a9c5f6": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_8e56c5bd13563bf5b0c91a9c5f6"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 36:01 [:/api/users/reset/] Internal Server Error: Message->null value in column "token" violates not-null constraint: Stack->QueryFailedError: null value in column "token" violates not-null constraint
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async UpdateQueryBuilder.execute (/backend/node_modules/src/query-builder/UpdateQueryBuilder.ts:145:33)
+    at async updateSubject (/backend/node_modules/src/persistence/SubjectExecutor.ts:617:38)
+    at async Promise.all (index 0)
+    at async SubjectExecutor.executeUpdateOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:668:9)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:148:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 45:14 [:/api/users/reset/] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterUpdate (/backend/src/subscribers/password-reset.ts:60:37)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:558:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterUpdateEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:553:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:307:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:306:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 45:15 [:/api/users/reset/] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterUpdate (/backend/src/subscribers/password-reset.ts:60:37)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:558:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterUpdateEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:553:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:307:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:306:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 47:12 [:/api/users/reset/] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterUpdate (/backend/src/subscribers/password-reset.ts:56:37)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:558:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterUpdateEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:553:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:307:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:306:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 48:23 [:/api/users/reset/] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterUpdate (/backend/src/subscribers/password-reset.ts:56:37)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:558:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterUpdateEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:553:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:307:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:306:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 49:15 [:/api/users/reset/] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterUpdate (/backend/src/subscribers/password-reset.ts:57:37)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:558:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterUpdateEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:553:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:307:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:306:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 49:38 [:/api/users/reset/] Internal Server Error: Message->Cannot read properties of undefined (reading 'profile'): Stack->TypeError: Cannot read properties of undefined (reading 'profile')
+    at PasswordResetSubscriber.afterUpdate (/backend/src/subscribers/password-reset.ts:57:37)
+    at /backend/node_modules/src/subscriber/Broadcaster.ts:558:56
+    at Array.forEach (<anonymous>)
+    at Broadcaster.broadcastAfterUpdateEvent (/backend/node_modules/src/subscriber/Broadcaster.ts:553:53)
+    at /backend/node_modules/src/persistence/SubjectExecutor.ts:307:46
+    at Array.forEach (<anonymous>)
+    at SubjectExecutor.broadcastAfterEventsForAll (/backend/node_modules/src/persistence/SubjectExecutor.ts:306:33)
+    at SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:183:38)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 50:44 [:/api/users/reset/] Internal Server Error: Message->null value in column "user" violates not-null constraint: Stack->QueryFailedError: null value in column "user" violates not-null constraint
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
+Oct 2023, 51:57 [:/api/users/reset/] Internal Server Error: Message->duplicate key value violates unique constraint "UQ_8e56c5bd13563bf5b0c91a9c5f6": Stack->QueryFailedError: duplicate key value violates unique constraint "UQ_8e56c5bd13563bf5b0c91a9c5f6"
+    at PostgresQueryRunner.query (/backend/node_modules/typeorm/src/driver/postgres/PostgresQueryRunner.ts:299:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async InsertQueryBuilder.execute (/backend/node_modules/src/query-builder/InsertQueryBuilder.ts:163:33)
+    at async SubjectExecutor.executeInsertOperations (/backend/node_modules/src/persistence/SubjectExecutor.ts:434:42)
+    at async SubjectExecutor.execute (/backend/node_modules/src/persistence/SubjectExecutor.ts:137:9)
+    at async EntityPersistExecutor.execute (/backend/node_modules/src/persistence/EntityPersistExecutor.ts:182:21) 
