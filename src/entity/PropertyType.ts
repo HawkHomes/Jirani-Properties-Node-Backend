@@ -1,18 +1,10 @@
-import {
-	Column,
-	DeleteDateColumn,
-	Entity,
-	OneToMany,
-	PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, DeleteDateColumn, Entity, OneToMany } from 'typeorm';
 
+import { BaseClass } from './AbstractEntities';
 import { Property } from './Property';
 
-@Entity({ name: 'PropertyType' })
-export class PropertyType {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+@Entity({ name: 'propertyTypes' })
+export class PropertyType extends BaseClass {
 	@Column({ name: 'type', nullable: false })
 	name: string;
 

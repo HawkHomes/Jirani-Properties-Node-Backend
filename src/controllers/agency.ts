@@ -1,4 +1,4 @@
-import { TypeORMError } from 'typeorm';
+import { Point, TypeORMError } from 'typeorm';
 import { Request, Response } from 'express';
 
 import { AppDataSource } from './../data-source';
@@ -13,19 +13,41 @@ import {
 } from './../utils/constants';
 import { Agency } from '../entity/Agency';
 import { ResponseAndLoggerWrapper } from '../logger/Logger';
+import { getWKTCoords } from '../utils/common';
 
 // #create acc
 export const createAgency: (
 	req: Request,
 	res: Response
 ) => Promise<any> = async (req, res) => {
-	const { address, name, phone, licence = '', website_url, avatar } = req.body;
+	const {
+		coordinates,
+		website_url,
+		licence = '',
+		address,
+		avatar,
+		phone,
+		name,
+	} = req.body;
+
+	const formatedCoordinates = getWKTCoords({
+		long: parseFloat(`${coordinates.long}`),
+		lat: parseFloat(`${coordinates.lat}`),
+	});
 
 	const foundAgency = await AppDataSource.manager
 		.getRepository(Agency)
 		.createQueryBuilder('agency')
 		.where('agency.name =:name', { name })
 		.andWhere('agency.phone =:phone', { phone })
+		.andWhere(
+			'ST_DWithin(agency.coords, ST_MakePoint(:long,:lat)::geography,:radius)',
+			{
+				long: formatedCoordinates.coordinates[0],
+				lat: formatedCoordinates.coordinates[1],
+				radius: 0,
+			}
+		) //check for location information for comparison.
 		.getOne();
 
 	if (foundAgency)
@@ -38,12 +60,18 @@ export const createAgency: (
 			},
 		});
 
+	const coords: Point = {
+		coordinates: [coordinates.long, coordinates.lat],
+		type: 'Point',
+	};
+
 	const agency = new Agency();
 
 	agency.website_url = website_url;
 	agency.address = address;
 	agency.avatar = avatar;
 	agency.licence = licence;
+	agency.coords = coords;
 	agency.phone = phone;
 	agency.name = name;
 	agency.website_url;

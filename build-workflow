@@ -4,7 +4,7 @@ set +
 
 _() {
     cp ./src/.dockerignore ./production/.dockerignore
-    cp ./src/.env ./production/.env
+    # cp ./src/.env ./production/.env
     cp wait-for-it.sh ./production/
     cp package.json ./production/
     # cp -rf ./node_modules ./production

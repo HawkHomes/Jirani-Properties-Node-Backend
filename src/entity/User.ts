@@ -1,5 +1,4 @@
 import {
-	PrimaryGeneratedColumn,
 	DeleteDateColumn,
 	CreateDateColumn,
 	ManyToOne,
@@ -15,14 +14,14 @@ import { PasswordReset } from './PasswordReset';
 import { ActivateAccount } from './Activate';
 import { Property } from './Property';
 import { Review } from './Review';
+import { Agency } from './Agency';
 import { Profile } from './Profile';
 import { Perm } from './Perm';
-import { Agency } from './Agency';
 
-@Entity({ name: 'Users' })
+@Entity({ name: 'users' })
 export class User extends OauthEntityClass {
-	@PrimaryGeneratedColumn('uuid')
-	uid: string;
+	// @PrimaryGeneratedColumn('uuid')
+	// uid: string;
 
 	@Column({ nullable: false })
 	first_name: string;

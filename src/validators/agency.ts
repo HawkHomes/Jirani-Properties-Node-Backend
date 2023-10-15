@@ -1,4 +1,5 @@
 import {
+	coordinatesQueryBodyValidator,
 	limitPageValidator,
 	stringQueryBodyValidator,
 	uuidValidator,
@@ -9,6 +10,14 @@ export const agencyValidator = [
 	...stringQueryBodyValidator({
 		queryString: false,
 		targetField: 'name',
+		optional: false,
+	}),
+
+	//coordinates
+	...coordinatesQueryBodyValidator({
+		msg: 'Missing or invalid agency location',
+		targetField: 'coordinates',
+		queryString: false,
 		optional: false,
 	}),
 

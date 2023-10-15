@@ -1,13 +1,13 @@
 import {
-	GraphQLID,
-	GraphQLList,
-	GraphQLNonNull,
 	GraphQLObjectType,
+	GraphQLNonNull,
+	GraphQLList,
+	GraphQLID,
 } from 'graphql';
 
 import {
 	IdTypeGenericArray,
-	BooleanTypeGeneric,
+	BasePropertyFilters,
 	StringTypeGeneric,
 	IdTypeGeneric,
 	PageLimitFilter,
@@ -19,7 +19,7 @@ import {
 	Feature,
 	House,
 	User,
-	BasePropertyFilters,
+	statusTypeGeneric,
 } from './types';
 import {
 	getPropertyTypesResolver,
@@ -31,11 +31,11 @@ import {
 	getPropertyResolver,
 	getFeaturesResolver,
 	getFeatureResolver,
+	getAgencyResolver,
 	getHousesResolver,
 	getHouseResolver,
 	getUsersResolver,
 	getUserResolver,
-	getAgencyResolver,
 } from '../resolvers';
 
 export const RootQuery = new GraphQLObjectType({
@@ -60,7 +60,6 @@ export const RootQuery = new GraphQLObjectType({
 		houses: {
 			args: {
 				category: IdTypeGenericArray,
-				for_sale: BooleanTypeGeneric,
 				cost: { type: MinMaxFilter },
 				pid: IdTypeGeneric,
 				id: IdTypeGeneric,

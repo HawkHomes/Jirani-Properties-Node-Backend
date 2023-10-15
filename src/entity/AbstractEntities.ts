@@ -1,6 +1,11 @@
-import { Column } from 'typeorm';
+import { Column, Index, Point, PrimaryGeneratedColumn } from 'typeorm';
 
-export abstract class OauthEntityClass {
+export abstract class BaseClass {
+	@PrimaryGeneratedColumn('uuid')
+	id: string;
+}
+
+export abstract class OauthEntityClass extends BaseClass {
 	@Column({ name: 'oauth_provider', nullable: true, select: false })
 	oauth_provider: string;
 
@@ -8,4 +13,8 @@ export abstract class OauthEntityClass {
 	oauth_id: string;
 }
 
-export abstract class BaseClass {}
+export abstract class LocationEntity extends BaseClass {
+	@Index({ spatial: true })
+	@Column({ type: 'geometry', spatialFeatureType: 'Point', srid: 4326 })
+	coords: Point;
+}

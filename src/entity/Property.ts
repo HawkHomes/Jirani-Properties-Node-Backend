@@ -1,38 +1,30 @@
 import {
-	PrimaryGeneratedColumn,
+	DeleteDateColumn,
 	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	JoinColumn,
 	JoinTable,
-	Index,
-	Column,
 	Entity,
-	Point,
-	DeleteDateColumn,
+	Column,
 } from 'typeorm';
 
+import { LocationEntity } from './AbstractEntities';
 import { PropertyType } from './PropertyType';
+import { assetStatus } from '../types';
 import { Feature } from './Feature';
 import { Review } from './Review';
 import { Agency } from './Agency';
 import { House } from './House';
 import { User } from './User';
 
-@Entity({ name: 'Properties' })
-export class Property {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+@Entity({ name: 'properties' })
+export class Property extends LocationEntity {
 	@Column({ name: 'name' })
 	name: string;
 
 	@Column({ name: 'address' })
 	address: string;
-
-	@Index({ spatial: true })
-	@Column({ type: 'geometry', spatialFeatureType: 'Point', srid: 4326 })
-	coords: Point;
 
 	@Column({ name: 'nearest_town' })
 	nearest_town: string;
@@ -60,7 +52,17 @@ export class Property {
 	@DeleteDateColumn({ name: 'date_deleted', select: false, nullable: true })
 	date_deleted: Date;
 
+	@Column({
+		default: assetStatus.ForRent,
+		enum: assetStatus,
+		name: 'status',
+		nullable: false,
+		type: 'enum',
+	})
+	status: assetStatus;
+
 	@ManyToMany((type) => Feature, (feature) => feature.property, {
+		cascade: true,
 		nullable: false,
 		eager: true,
 	})

@@ -12,6 +12,7 @@ import {
 import { AppDataSource } from '../data-source';
 import { Feature } from '../entity/Feature';
 import { ResponseAndLoggerWrapper } from '../logger/Logger';
+import { dataOrderingEnum } from '../types';
 
 // #create feature
 export const createFeature: (
@@ -159,7 +160,12 @@ export const getAllFeatures: (
 	req: Request,
 	res: Response
 ) => Promise<any> = async (req, res) => {
-	const { name, page = 1, limit = 10, sort } = req.query;
+	const {
+		sort = dataOrderingEnum.Ascending,
+		page = 1,
+		limit = 10,
+		name,
+	} = req.query;
 
 	const manager = AppDataSource.manager
 		.getRepository(Feature)

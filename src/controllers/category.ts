@@ -12,6 +12,7 @@ import {
 	TYPE_OK,
 	TYPE_NO_CONTENT,
 } from './../utils/constants';
+import { dataOrderingEnum } from '../types';
 
 // #create acc
 export const createCategory: (
@@ -159,7 +160,13 @@ export const getAllCategories: (
 	req: Request,
 	res: Response
 ) => Promise<any> = async (req, res) => {
-	const { name, id, page = 1, limit = 10 } = req.query;
+	const {
+		sort = dataOrderingEnum.Ascending,
+		page = 1,
+		limit = 10,
+		name,
+		id,
+	} = req.query;
 
 	const manager = AppDataSource.manager
 		.getRepository(Category)
@@ -173,7 +180,10 @@ export const getAllCategories: (
 			: manager.where('category.id =:id', { id });
 
 	return manager
-		.orderBy('category.added_on', 'ASC')
+		.orderBy(
+			'category.name',
+			sort === dataOrderingEnum.Ascending ? 'ASC' : 'DESC'
+		)
 		.skip((parseInt(`${page}`) - 1) * parseInt(`${limit}`))
 		.take(parseInt(`${limit}`))
 		.getManyAndCount()

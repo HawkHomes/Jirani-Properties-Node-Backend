@@ -15,6 +15,14 @@ export enum roleInterface {
 	USER = 'User',
 }
 
+export enum assetStatus {
+	ForAuction = 'Auction',
+	Upcoming = 'Upcoming',
+	ForRent = 'Rent',
+	ForSale = 'Sale',
+	Sold = 'Sold',
+}
+
 export interface userProfileInterface {
 	email_addr: string;
 	avatar: string;
@@ -73,11 +81,6 @@ export interface min_max_builtInterface {
 	min?: number;
 }
 
-export interface handleFilesInterface {
-	errorsFromMoving: Array<any>;
-	fileNames: Array<any>;
-}
-
 export interface coordsInterface {
 	long: number;
 	lat: number;
@@ -87,6 +90,7 @@ export interface propertyInterface<L = min_max_builtInterface, T = string> {
 	coordinates: coordsInterface;
 	additional_info: string;
 	nearest_town: string;
+	status: assetStatus;
 	year_built: number;
 	features: string[];
 	photos: string[];
@@ -127,7 +131,7 @@ export interface propertyFilterInterface
 export interface houseFilterInterface extends propertyFilterInterface {
 	cost: min_max_builtInterface;
 	total_available: number;
-	for_sale: boolean;
+	status: assetStatus;
 	category: string[];
 }
 
@@ -198,6 +202,9 @@ export type ClassLogerType = {
 export type OptionalValidatorType = {
 	// uuid field found in body
 	specialParamInBody?: boolean;
+	maxValue?: number | null;
+	dependsOnField?: string;
+	minValue?: number | null;
 	signInChain?: boolean;
 	queryString: boolean;
 	targetField: string;

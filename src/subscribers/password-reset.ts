@@ -8,7 +8,11 @@ import {
 } from 'typeorm';
 
 import { PasswordReset } from '../entity/PasswordReset';
-import { sendMail, sendSms } from '../utils/common';
+import {
+	deleteOutdatedPasswordRecords,
+	sendMail,
+	sendSms,
+} from '../utils/common';
 import { AccountPassword } from '../templates';
 
 const bcrypt = require('bcrypt');
@@ -44,6 +48,8 @@ export class PasswordResetSubscriber
 	afterUpdate(event: UpdateEvent<PasswordReset>): void | Promise<any> {
 		const { entity: passwordResetEntity } = event;
 
+		deleteOutdatedPasswordRecords();
+
 		const findUpdatedToken = event.updatedColumns.find(
 			({ propertyName }) => propertyName === 'token'
 		);
@@ -68,6 +74,8 @@ export class PasswordResetSubscriber
 
 	afterInsert(event: InsertEvent<PasswordReset>): void | Promise<any> {
 		const { entity: passwordResetEntity } = event;
+
+		deleteOutdatedPasswordRecords();
 
 		sendSms({
 			msg: `We have received an account reset request for your  ${process.env.COMPANY_NAME}'s account click here if you made the request http://localhost:4000/. If you didn't make the request, then ignore this message and don't send it to anyone.`,

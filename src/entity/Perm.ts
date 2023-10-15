@@ -1,13 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
+import { BaseClass } from './AbstractEntities';
 import { roleInterface } from '../types';
 import { User } from './User';
 
 @Entity({ name: 'perm' })
-export class Perm {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+export class Perm extends BaseClass {
 	@Column({
 		enum: roleInterface,
 		nullable: false,

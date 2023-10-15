@@ -299,17 +299,20 @@ export const PasswordResetHandler: (
 	req: Request,
 	res: Response
 ) => Promise<any> = async (req, res) => {
+	const oneHourAgo = new Date();
+	oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
 	const { password, token }: PasswordResetInterface = req.body;
 
 	const foundResetTokenUser = await AppDataSource.getRepository(User)
 		.createQueryBuilder('user')
 		.leftJoinAndSelect('user.pass_reset', 'pass_reset')
 		.where('pass_reset.token =:token', { token })
+		//the token must be an hour or less
+		.andWhere('pass_reset.created >=:oneHourAgo', { oneHourAgo })
 		.getOne()
 		.then(async (data) => {
 			//delete the user password entry
-			// delete data.pass_reset;
-
 			await AppDataSource.manager
 				.delete(PasswordReset, { token })
 				.catch(console.log);

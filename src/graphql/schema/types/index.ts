@@ -1,6 +1,7 @@
 import {
 	GraphQLInputObjectType,
 	GraphQLObjectType,
+	GraphQLEnumType,
 	GraphQLBoolean,
 	GraphQLNonNull,
 	GraphQLString,
@@ -9,6 +10,8 @@ import {
 	GraphQLList,
 	GraphQLID,
 } from 'graphql';
+
+import { assetStatus } from '../../../types';
 
 export const StringTypeGeneric = {
 	type: GraphQLString,
@@ -39,6 +42,21 @@ export const IdTypeGeneric = {
 	type: GraphQLID,
 };
 
+export const statusTypeGeneric = {
+	type: new GraphQLEnumType({
+		name: 'StatusEnumType',
+		values: Object.entries(assetStatus).reduce(
+			(prev, [key, value]) => ({
+				...prev,
+				[value]: {
+					value,
+				},
+			}),
+			{}
+		),
+	}),
+};
+
 export const IdTypeGenericArray = {
 	type: new GraphQLList(GraphQLID),
 };
@@ -62,6 +80,7 @@ export const BasePropertyFilters = {
 	year_built: { type: MinMaxFilter },
 	features: IdTypeGenericArray,
 	land_size: { type: MinMaxFilter },
+	status: statusTypeGeneric,
 	sort: StringTypeGeneric,
 	currLocation: {
 		type: LocationFilter,
@@ -86,7 +105,7 @@ export const GeoPoint = new GraphQLInputObjectType({
 	name: 'GeoPoint',
 	fields: () => ({
 		alt: { type: new GraphQLNonNull(GraphQLFloat), defaultValue: 0 },
-		lon: { type: new GraphQLNonNull(GraphQLFloat) },
+		long: { type: new GraphQLNonNull(GraphQLFloat) },
 		lat: { type: new GraphQLNonNull(GraphQLFloat) },
 	}),
 });
@@ -124,9 +143,9 @@ export const House = new GraphQLObjectType({
 		photos: StringTypeGenericArray,
 		total_available: IntTypeGeneric,
 		date_added: StringTypeGeneric,
-		for_sale: BooleanTypeGeneric,
 		property: { type: Property },
 		category: { type: Category },
+		status: statusTypeGeneric,
 		cost: FloatTypeGeneric,
 		id: IdTypeGeneric,
 	}),
@@ -145,6 +164,7 @@ export const Property = new GraphQLObjectType({
 		additional_info: StringTypeGeneric,
 		nearest_town: StringTypeGeneric,
 		year_built: IntTypeGeneric,
+		status: statusTypeGeneric,
 		address: StringTypeGeneric,
 		land_size: IntTypeGeneric,
 		name: StringTypeGeneric,

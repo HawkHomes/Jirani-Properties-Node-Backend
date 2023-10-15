@@ -1,18 +1,10 @@
-import {
-	Column,
-	DeleteDateColumn,
-	Entity,
-	OneToOne,
-	PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, DeleteDateColumn, Entity, OneToOne } from 'typeorm';
 
+import { BaseClass } from './AbstractEntities';
 import { User } from './User';
 
-@Entity({ name: 'Profile' })
-export class Profile {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+@Entity({ name: 'profiles' })
+export class Profile extends BaseClass {
 	@Column({ name: 'avatar', nullable: true })
 	avatar: string;
 

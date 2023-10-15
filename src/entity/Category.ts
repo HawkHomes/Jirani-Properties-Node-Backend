@@ -1,18 +1,10 @@
-import { OneToMany } from 'typeorm';
+import { CreateDateColumn, Column, Entity, OneToMany } from 'typeorm';
+
+import { BaseClass } from './AbstractEntities';
 import { House } from './House';
 
-import {
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
-	Column,
-	Entity,
-} from 'typeorm';
-
 @Entity({ name: 'categories' })
-export class Category {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+export class Category extends BaseClass {
 	@Column({ name: 'category', nullable: false, unique: true })
 	name: string;
 

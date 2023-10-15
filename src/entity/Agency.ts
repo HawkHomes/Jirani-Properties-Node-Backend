@@ -1,5 +1,4 @@
 import {
-	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
 	OneToMany,
@@ -8,14 +7,12 @@ import {
 	DeleteDateColumn,
 } from 'typeorm';
 
+import { LocationEntity } from './AbstractEntities';
 import { Property } from './Property';
 import { User } from './User';
 
-@Entity({ name: 'Agency' })
-export class Agency {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+@Entity({ name: 'agencies' })
+export class Agency extends LocationEntity {
 	@Column({ name: 'name', nullable: false, unique: true })
 	name: string;
 

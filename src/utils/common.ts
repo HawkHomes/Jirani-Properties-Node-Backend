@@ -1,33 +1,33 @@
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { Point, TypeORMError } from 'typeorm';
 import * as nodemailer from 'nodemailer';
 import { createRequire } from 'module';
 import * as jwt from 'jsonwebtoken';
+import { readdirSync } from 'fs';
 
 const Twilio = require('twilio');
-const fs = require('fs');
 
 // dev deps
 import { API_PREFIX, TYPE_BAD_REQUEST, TYPE_OK } from './constants';
+import { ResponseAndLoggerWrapper } from '../logger/Logger';
+import { CustomErrorType } from '../graphql/schema/types';
+import { PasswordReset } from '../entity/PasswordReset';
+import { AppDataSource } from '../data-source';
+import { Profile } from '../entity/Profile';
+import { Perm } from '../entity/Perm';
+import { User } from '../entity/User';
 import {
 	dirFileReaderParamsInterface,
 	queryParamEncoderInterface,
 	dynamicKeysInterface,
-	handleFilesInterface,
 	responseInterface,
 	coordsInterface,
 	emailInterface,
 	smsInterface,
 	roleInterface,
 } from './../types';
-import { ResponseAndLoggerWrapper } from '../logger/Logger';
-import { CustomErrorType } from '../graphql/schema/types';
-import { AppDataSource } from '../data-source';
-import { Profile } from '../entity/Profile';
-import { Perm } from '../entity/Perm';
-import { User } from '../entity/User';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 export const responseWrapper: (
 	res: Response,
@@ -92,10 +92,8 @@ export const sendMail: ({
 
 	await transport.sendMail(
 		mailOptions,
-		(error: any, info: { response: string }) => {
-			if (error) console.log(error);
-			else console.log('Email sent: a' + info.response);
-		}
+		(error: any, info: { response: string }) =>
+			error ? console.log(error) : console.log('Email sent: a' + info.response)
 	);
 };
 
@@ -115,10 +113,9 @@ export const sendSms: ({ phone, msg }: smsInterface) => void = ({
 			to: `+${phone}`,
 			body: msg,
 		})
-		.then((payload: any) => {
-			// send success response
-			console.log('Message send sucessfully to: ', payload.to);
-		})
+		.then((payload: any) =>
+			console.log('Message send sucessfully to: ', payload.to)
+		)
 		.catch(async (err: Error) => console.log(err.message));
 };
 
@@ -139,37 +136,6 @@ export const genRefreshToken: (user: any) => string = (user) =>
 		expiresIn: process.env.JWT_TOKEN_RTOKEN_EXPIRY,
 	});
 
-export const handleFiles: ({
-	destination,
-	files,
-}: {
-	destination: string;
-	files: Request;
-}) => Promise<handleFilesInterface> = async ({ files, destination }) => {
-	const errorsFromMoving = Array();
-	const fileNames = Array();
-
-	if (files) {
-		Object.keys(files).map((singleFile) => {
-			let file = files[singleFile];
-
-			let fileName = `${new Date().getTime()}-${file.name}`;
-
-			file.mv(`${destination}/${fileName}`, (err: Error) => {
-				if (err) {
-					console.log(err);
-					errorsFromMoving.push(err);
-				} else {
-					console.log(fileName);
-					fileNames.push(fileName);
-				}
-			});
-		});
-	}
-
-	return { fileNames, errorsFromMoving };
-};
-
 export const getWKTCoords: ({ long, lat }: coordsInterface) => Point = ({
 	long,
 	lat,
@@ -187,11 +153,9 @@ export const dirFileReader = ({
 	const foundExports = [];
 
 	// read the files in the docs folder
-	const fileRead = fs
-		.readdirSync(`${base_route}`)
-		.filter(
-			(singleRoute) => !ignoreFiles.includes(`${base_route}/${singleRoute}`)
-		);
+	const fileRead = readdirSync(`${base_route}`).filter(
+		(singleRoute) => !ignoreFiles.includes(`${base_route}/${singleRoute}`)
+	);
 
 	if (!array)
 		fileRead.map(
@@ -409,7 +373,9 @@ export const oAUthCallBackHandler = async ({
 };
 
 export const awsBucket = () => {
-	const client = new S3Client();
+	const client = new S3Client({
+		credentials: { accessKeyId: '', secretAccessKey: '' },
+	});
 
 	const command = new PutObjectCommand({
 		Body: Buffer.from(''),
@@ -426,4 +392,19 @@ export const awsBucket = () => {
 	// s3.getSignedUrl();
 
 	// s3.upload({});
+};
+
+export const deleteOutdatedPasswordRecords = async () => {
+	const oneHourAgo = new Date();
+	oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+	AppDataSource.getRepository(PasswordReset)
+		.createQueryBuilder()
+		.delete()
+		.from(PasswordReset)
+		.where('created <=:oneHourAgo', { oneHourAgo })
+		.orWhere('updated <=:oneHourAgo', { oneHourAgo })
+		.execute()
+		.then(console.log)
+		.catch(console.log);
 };

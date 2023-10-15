@@ -15,6 +15,7 @@ import {
 	houseFilterInterface,
 	dataOrderingEnum,
 	roleInterface,
+	assetStatus,
 } from './../types';
 import { Category } from './../entity/Category';
 import { Property } from './../entity/Property';
@@ -35,7 +36,7 @@ export const createHouse: (
 		additional_info,
 		category,
 		features,
-		for_sale,
+		status,
 		photos,
 		cost,
 	} = req.body;
@@ -87,8 +88,18 @@ export const createHouse: (
 	newHouse.category = foundCategory;
 	newHouse.property = foundProperty;
 	newHouse.photos = photos ?? [];
-	newHouse.for_sale = for_sale;
 	newHouse.cost = cost;
+
+	newHouse.status =
+		status === assetStatus.ForAuction
+			? assetStatus.ForAuction
+			: status === assetStatus.ForRent
+			? assetStatus.ForRent
+			: status === assetStatus.ForSale
+			? assetStatus.ForSale
+			: status === assetStatus.Sold
+			? assetStatus.Sold
+			: assetStatus.Upcoming;
 
 	return AppDataSource.manager
 		.save(newHouse)
@@ -128,21 +139,23 @@ export const updateHouse: (
 		additional_info,
 		features,
 		category,
-		for_sale,
+		status,
 		photos,
 		cost,
 	} = req.body;
 
-	const myManager = AppDataSource.manager
+	const propertyManager = AppDataSource.manager
 		.getRepository(Property)
 		.createQueryBuilder('property')
 		.where('property.id =:pid', { pid });
 
-	req.user.perm.role === roleInterface.Admin
-		? null
-		: myManager.andWhere('property.owner =:owner', { owner: req.user.uid });
+	req.user.perm.role !== roleInterface.Admin
+		? propertyManager.andWhere('property.owner =:owner', {
+				owner: req.user.uid,
+		  })
+		: null;
 
-	const property = await myManager.getOne();
+	const property = await propertyManager.getOne();
 
 	if (!property)
 		return new ResponseAndLoggerWrapper({
@@ -153,6 +166,45 @@ export const updateHouse: (
 				details: 'Property Not Found',
 			},
 		});
+
+	const hse = await AppDataSource.manager
+		.getRepository(House)
+		.createQueryBuilder('house')
+		.leftJoinAndSelect('house.property', 'property')
+		.leftJoinAndSelect('house.features', 'features')
+		.where('property.id =:pid', { pid })
+		.andWhere('house.id =:hid', { hid })
+		.getOne();
+
+	if (!hse)
+		return new ResponseAndLoggerWrapper({
+			req,
+			res,
+			payload: {
+				...TYPE_NOT_FOUND,
+				details: 'House Not Found',
+			},
+		});
+
+	if (additional_info) hse.additional_info = additional_info;
+
+	if (photos && photos.length > 0) hse.photos = photos;
+
+	if (total_available) hse.total_available = total_available;
+
+	hse.status = status
+		? status === assetStatus.ForAuction
+			? assetStatus.ForAuction
+			: status === assetStatus.ForRent
+			? assetStatus.ForRent
+			: status === assetStatus.ForSale
+			? assetStatus.ForSale
+			: status === assetStatus.Sold
+			? assetStatus.Sold
+			: assetStatus.Upcoming
+		: hse.status;
+
+	if (cost) hse.cost = cost;
 
 	if (category) {
 		const catFound = await AppDataSource.manager
@@ -170,6 +222,8 @@ export const updateHouse: (
 					details: 'Category Not Found',
 				},
 			});
+
+		hse.category = catFound;
 	}
 
 	if (features && features.length > 0) {
@@ -188,48 +242,12 @@ export const updateHouse: (
 					details: 'Feature Not Found',
 				},
 			});
+
+		hse.features = featuresFound;
 	}
 
-	const hse = await AppDataSource.manager
-		.getRepository(House)
-		.createQueryBuilder('house')
-		.leftJoinAndSelect('house.property', 'property')
-		.where('property.id =:pid', { pid })
-		.andWhere('house.id =:hid', { hid })
-		.getOne();
-
-	if (!hse)
-		return new ResponseAndLoggerWrapper({
-			req,
-			res,
-			payload: {
-				...TYPE_NOT_FOUND,
-				details: 'House Not Found',
-			},
-		});
-
-	const dataToUpdate: Object = {
-		...(total_available ? { total_available } : {}),
-		...(additional_info ? { additional_info } : {}),
-		...(features
-			? {
-					features,
-			  }
-			: {}),
-		...(photos ? { photos: [...hse.photos, photos] } : {}),
-		...(category ? { category } : {}),
-		...(for_sale ? { for_sale } : {}),
-		...(cost ? { cost } : {}),
-	};
-
 	return AppDataSource.manager
-		.createQueryBuilder()
-		.leftJoinAndSelect('property', 'property')
-		.update(House)
-		.set({ ...dataToUpdate })
-		.where('property.id =:pid', { pid })
-		.andWhere('id =:hid', { hid })
-		.execute()
+		.save(hse)
 		.then(
 			() =>
 				new ResponseAndLoggerWrapper({
@@ -276,7 +294,7 @@ export const getAllHouses: (
 		currLocation,
 		features,
 		category,
-		for_sale,
+		status,
 		address,
 		limit = 10,
 		page = 1,
@@ -306,9 +324,18 @@ export const getAllHouses: (
 			minCost: cost.min ?? 0,
 		});
 
-	if (for_sale === true || for_sale === false)
-		myManager.andWhere('house.for_sale = :for_sale', {
-			for_sale,
+	if (status)
+		myManager.andWhere('house.status = :status', {
+			status:
+				status === assetStatus.ForAuction
+					? assetStatus.ForAuction
+					: status === assetStatus.ForRent
+					? assetStatus.ForRent
+					: status === assetStatus.ForSale
+					? assetStatus.ForSale
+					: status === assetStatus.Sold
+					? assetStatus.Sold
+					: assetStatus.Upcoming,
 		});
 
 	if (category)
@@ -441,9 +468,9 @@ export const getAllPropertyHouses: (
 		currLocation,
 		features,
 		category,
-		for_sale,
 		address,
 		limit = 10,
+		status,
 		page = 1,
 		name,
 		type,
@@ -472,9 +499,20 @@ export const getAllPropertyHouses: (
 		})
 		.andWhere('property.id =:pid', { pid });
 
-	if (for_sale === true || for_sale === false)
-		myManager.andWhere('house.for_sale =:for_sale', {
-			for_sale,
+	if (status)
+		myManager.andWhere('house.status =:status', {
+			status:
+				status === assetStatus.ForAuction
+					? assetStatus.ForAuction
+					: status === assetStatus.Upcoming
+					? assetStatus.Upcoming
+					: status === assetStatus.ForRent
+					? assetStatus.ForRent
+					: status === assetStatus.ForSale
+					? assetStatus.ForSale
+					: status === assetStatus.Sold
+					? assetStatus.Sold
+					: assetStatus.ForRent,
 		});
 
 	if (category)

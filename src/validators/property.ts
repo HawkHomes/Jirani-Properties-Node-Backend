@@ -11,6 +11,9 @@ import {
 	limitPageValidator,
 	photosValidator,
 	uuidValidator,
+	uuidArrayValidator,
+	assetStatusQueryBodyValidator,
+	coordinatesQueryBodyValidator,
 } from './reusable';
 
 export const propertyUUidValidator = [
@@ -31,20 +34,9 @@ export const propertyValidator = [
 		optional: false,
 	}),
 
-	body('coordinates', 'Apartment Location/coordinates is missing')
-		.isObject()
-		.exists({ checkFalsy: true, checkNull: true }),
-
-	...floatQueryBodyValidator({
-		msg: 'Invalid value for latitude field',
-		targetField: 'coordinates.lat',
-		queryString: false,
-		optional: false,
-	}),
-
-	...floatQueryBodyValidator({
-		msg: 'Invalid value for longitude field',
-		targetField: 'coordinates.long',
+	...coordinatesQueryBodyValidator({
+		msg: 'Apartment Location/coordinates is missing',
+		targetField: 'coordinates',
 		queryString: false,
 		optional: false,
 	}),
@@ -80,6 +72,13 @@ export const propertyValidator = [
 		optional: false,
 	}),
 
+	...assetStatusQueryBodyValidator({
+		msg: 'Missing or invalid value provided for the status field',
+		targetField: 'status',
+		queryString: false,
+		optional: false,
+	}),
+
 	...stringQueryBodyValidator({
 		targetField: 'address',
 		queryString: false,
@@ -87,7 +86,13 @@ export const propertyValidator = [
 	}),
 
 	// validate the additional infor
-	...additionInfoBodyValidator({ optional: true, queryString: false }),
+	...additionInfoBodyValidator({
+		msg: 'Missing or Invalid value provided for additional_info field',
+		queryString: false,
+		maxValue: 250,
+		optional: false,
+		minValue: 10,
+	}),
 
 	...uuidValidator({
 		msg: 'Missing or invalid Information for property type',
@@ -105,13 +110,21 @@ export const propertyUpdateValidator = [
 	...propertyUUidValidator,
 
 	...stringQueryBodyValidator({
-		msg: 'Apartment name is missing',
+		msg: 'Apartment name is missing is missing or invalid',
 		queryString: false,
 		targetField: 'name',
 		optional: true,
 	}),
+
 	...stringQueryBodyValidator({
 		targetField: 'address',
+		queryString: false,
+		optional: true,
+	}),
+
+	...assetStatusQueryBodyValidator({
+		msg: 'Invalid value provided for the status field',
+		targetField: 'status',
 		queryString: false,
 		optional: true,
 	}),
@@ -174,6 +187,13 @@ export const propertyUpdateValidator = [
 		specialParamInBody: true,
 		queryString: false,
 		targetField: 'type',
+		optional: true,
+	}),
+
+	...uuidArrayValidator({
+		msg: "'Invalid data provided for features field'",
+		specialParamInBody: true,
+		targetField: 'features',
 		optional: true,
 	}),
 ];

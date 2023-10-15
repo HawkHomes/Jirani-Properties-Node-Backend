@@ -1,18 +1,10 @@
+import { OneToOne, JoinColumn, Column, Entity } from 'typeorm';
+
+import { BaseClass } from './AbstractEntities';
 import { User } from './User';
 
-import {
-	PrimaryGeneratedColumn,
-	OneToOne,
-	JoinColumn,
-	Column,
-	Entity,
-} from 'typeorm';
-
 @Entity({ name: 'activation' })
-export class ActivateAccount {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+export class ActivateAccount extends BaseClass {
 	@Column({ name: 'otp' })
 	otp: number;
 

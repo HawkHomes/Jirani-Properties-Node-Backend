@@ -1,19 +1,11 @@
-import {
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
-	ManyToOne,
-	Column,
-	Entity,
-} from 'typeorm';
+import { CreateDateColumn, ManyToOne, Column, Entity } from 'typeorm';
 
+import { BaseClass } from './AbstractEntities';
 import { Property } from './Property';
 import { User } from './User';
 
 @Entity({ name: 'reviews' })
-export class Review {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+export class Review extends BaseClass {
 	@Column({ name: 'review', type: 'text', nullable: true, default: null })
 	review: string;
 

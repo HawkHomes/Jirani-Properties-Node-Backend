@@ -1,4 +1,3 @@
-import * as fileupload from 'express-fileupload';
 import * as compression from 'compression';
 import * as morgan from 'morgan';
 import { Express } from 'express';
@@ -20,8 +19,6 @@ app.set('trust proxy', true);
 // app.use(helmet());
 
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
-
-app.use(fileupload());
 
 // add cors
 app.use(

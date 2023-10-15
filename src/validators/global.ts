@@ -56,6 +56,8 @@ export const addressBodyValidator = function ({
 export const additionInfoBodyValidator = function ({
 	queryString = false,
 	optional = false,
+	maxValue,
+	minValue,
 	msg,
 }: Pick<OptionalValidatorType, 'optional' | 'queryString'> &
 	Partial<OptionalValidatorType>) {
@@ -66,10 +68,30 @@ export const additionInfoBodyValidator = function ({
 	)
 		.escape()
 		.trim()
-		.optional()
-		.isString();
+		.isString()
+		.isLength({ max: 1200 })
+		.withMessage(
+			`The additional information field exceeds the required amount of data.`
+		);
 
 	if (optional) payload.optional();
+
+	if (minValue || maxValue)
+		payload
+			.custom((value: string, meta) => {
+				if (minValue)
+					if (value.split(' ').length < minValue)
+						throw `The additional_info field does not meet the minimum additional content for ${minValue} required`;
+
+				if (maxValue)
+					if (value.split(' ').length > maxValue)
+						throw `The additional_info field exceeds the maximum additional content for ${maxValue} required`;
+
+				return true;
+			})
+			.withMessage(
+				`The total number of characters exceeded. The required number of word count should be min: ${minValue}, max: ${maxValue}`
+			);
 
 	return [payload.exists({ checkFalsy: true, checkNull: true })];
 };

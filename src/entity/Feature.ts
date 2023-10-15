@@ -1,19 +1,11 @@
-import {
-	PrimaryGeneratedColumn,
-	ManyToMany,
-	JoinColumn,
-	Column,
-	Entity,
-} from 'typeorm';
+import { ManyToMany, JoinColumn, Column, Entity } from 'typeorm';
 
+import { BaseClass } from './AbstractEntities';
 import { Property } from './Property';
 import { House } from './House';
 
-@Entity({ name: 'Features' })
-export class Feature {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+@Entity({ name: 'features' })
+export class Feature extends BaseClass {
 	@Column({ nullable: true, unique: true })
 	name: string;
 

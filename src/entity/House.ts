@@ -1,5 +1,4 @@
 import {
-	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 	CreateDateColumn,
 	ManyToMany,
@@ -11,20 +10,25 @@ import {
 	DeleteDateColumn,
 } from 'typeorm';
 
+import { BaseClass } from './AbstractEntities';
 import { Category } from './Category';
+import { assetStatus } from '../types';
 import { Property } from './Property';
 import { Feature } from './Feature';
 
-@Entity({ name: 'house' })
-export class House {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+@Entity({ name: 'houses' })
+export class House extends BaseClass {
 	@Column({ name: 'price' })
 	cost: number;
 
-	@Column({ name: 'for_sale' })
-	for_sale: boolean;
+	@Column({
+		default: assetStatus.ForRent,
+		enum: assetStatus,
+		name: 'status',
+		nullable: false,
+		type: 'enum',
+	})
+	status: assetStatus;
 
 	@Column({ name: 'total_available' })
 	total_available: number;
@@ -42,6 +46,7 @@ export class House {
 	date_deleted: Date;
 
 	@ManyToMany((type) => Feature, (feature) => feature.house, {
+		cascade: true,
 		nullable: false,
 		eager: true,
 	})

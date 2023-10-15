@@ -6,7 +6,7 @@ import { GraphQlMiddlewareContent } from './utils/reusables';
 import { API_PREFIX } from '../utils/constants';
 import { RootQuery } from './schema';
 
-export const rootGraphHandler = (app: Express) => {
+export const rootGraphHandler = (app: Express) =>
 	app.use(
 		`${API_PREFIX}/graphql`,
 		createHandler({
@@ -22,4 +22,3 @@ export const rootGraphHandler = (app: Express) => {
 			}),
 		})
 	);
-};

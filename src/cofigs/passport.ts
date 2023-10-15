@@ -10,7 +10,7 @@ passport.use(
 			clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
 			callbackURL: `${
 				process.env.NODE_ENV === 'production'
-					? 'https://ec2-54-162-179-153.compute-1.amazonaws.com'
+					? 'https://api.jiraniproperties.com'
 					: 'http://localhost:4000'
 			}/api/users/oauth/google/callback`,
 			clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
@@ -48,7 +48,7 @@ passport.use(
 			clientID: process.env.FACEBOOK_APP_ID,
 			callbackURL: `${
 				process.env.NODE_ENV === 'production'
-					? 'https://ec2-54-162-179-153.compute-1.amazonaws.com'
+					? 'https://api.jiraniproperties.com'
 					: 'http://localhost:4000'
 			}/api/users/oauth/facebook/callback`,
 		},

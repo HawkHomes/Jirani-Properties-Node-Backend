@@ -1,5 +1,3 @@
-import { config as dotEnvConfig } from 'dotenv';
-
 import { API_PREFIX } from './utils/constants';
 import { AppDataSource } from './data-source';
 import { rootGraphHandler } from './graphql';
@@ -12,10 +10,6 @@ import {
 } from './controllers/createRoles';
 import app from './utils/app';
 require('./cofigs/passport');
-
-dotEnvConfig({
-	path: __dirname + '/.env',
-});
 
 declare module 'express-serve-static-core' {
 	interface Request {

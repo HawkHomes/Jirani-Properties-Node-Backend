@@ -2,6 +2,7 @@ import { TypeORMError, Equal, Point, Brackets } from 'typeorm';
 import { Request, Response } from 'express';
 
 import {
+	assetStatus,
 	dataOrderingEnum,
 	propertyFilterInterface,
 	propertyInterface,
@@ -39,6 +40,7 @@ export const createProperty: (
 		features,
 		land_size,
 		address,
+		status,
 		photos,
 		name,
 		type,
@@ -66,7 +68,7 @@ export const createProperty: (
 	if (agencyName)
 		findThisProperty.andWhere('agency.id =:agencyId', { agencyId: agencyName });
 
-	if (await findThisProperty.getOne()) {
+	if (await findThisProperty.getOne())
 		return new ResponseAndLoggerWrapper({
 			res,
 			req,
@@ -75,7 +77,7 @@ export const createProperty: (
 				details: `Property (${name}) already exists`,
 			},
 		});
-	}
+
 	const condition = {
 		uid: Equal(req?.user?.uid),
 	};
@@ -86,13 +88,19 @@ export const createProperty: (
 
 	const property = new Property();
 
-	if (year_built) property.year_built = year_built;
-	if (land_size) property.land_size = land_size;
+	property.status =
+		status === assetStatus.ForAuction
+			? assetStatus.ForAuction
+			: status === assetStatus.ForRent
+			? assetStatus.ForRent
+			: status === assetStatus.ForSale
+			? assetStatus.ForSale
+			: status === assetStatus.Sold
+			? assetStatus.Sold
+			: assetStatus.Upcoming;
 
-	const coords: Point = {
-		coordinates: [coordinates.long, coordinates.lat],
-		type: 'Point',
-	};
+	property.year_built = year_built;
+	property.land_size = land_size;
 
 	const foundPropType = await AppDataSource.manager.findOne(PropertyType, {
 		where: {
@@ -110,7 +118,12 @@ export const createProperty: (
 			},
 		});
 
-	if (additional_info) property.additional_info = additional_info;
+	const coords: Point = {
+		coordinates: [coordinates.long, coordinates.lat],
+		type: 'Point',
+	};
+
+	property.additional_info = additional_info;
 	property.nearest_town = nearest_town;
 	property.type = foundPropType;
 	property.address = address;
@@ -197,15 +210,20 @@ export const updateProperty: (
 ) => Promise<any> = async (req, res) => {
 	const { pid } = req.params;
 
-	const { name, address, nearest_town, year_built, land_size } = req.body;
-
-	const updateOptions = {
-		...(nearest_town ? { nearest_town } : {}),
-		...(year_built ? { year_built } : {}),
-		...(land_size ? { land_size } : {}),
-		...(address ? { address } : {}),
-		...(name ? { name } : {}),
-	};
+	const {
+		additional_info, //done
+		nearest_town, //done
+		coordinates, //done
+		year_built, //done
+		features, //done
+		land_size, //done
+		address, //done
+		status, //done
+		agency, //done
+		name, //done
+		type, //done
+		photos,
+	} = req.body;
 
 	const user = await AppDataSource.manager
 		.createQueryBuilder(User, 'user')
@@ -214,15 +232,16 @@ export const updateProperty: (
 
 	const propManager = AppDataSource.manager
 		.createQueryBuilder(Property, 'property')
+		.leftJoinAndSelect('property.features', 'features')
 		.where('property.id =:pid', { pid });
 
-	if ((await user.perm.role) !== roleInterface.Admin) {
+	if ((await user.perm.role) !== roleInterface.Admin)
 		propManager.andWhere('property.owner =:owner', { owner: req.user.uid });
-	}
 
-	const property = await propManager.getOne();
+	//get a single property
+	const foundProperty = await propManager.getOne();
 
-	if (!property)
+	if (!foundProperty)
 		return new ResponseAndLoggerWrapper({
 			res,
 			req,
@@ -232,12 +251,100 @@ export const updateProperty: (
 			},
 		});
 
+	//update the partial values
+	foundProperty.additional_info =
+		additional_info ?? foundProperty.additional_info;
+	foundProperty.nearest_town = nearest_town ?? foundProperty.nearest_town;
+	foundProperty.year_built = year_built ?? foundProperty.year_built;
+	foundProperty.land_size = land_size ?? foundProperty.land_size;
+	foundProperty.address = address ?? foundProperty.address;
+	foundProperty.photos = photos ?? foundProperty.photos;
+	foundProperty.name = name ?? foundProperty.name;
+
+	//update the apartment status
+	foundProperty.status = status
+		? status === assetStatus.ForAuction
+			? assetStatus.ForAuction
+			: status === assetStatus.ForRent
+			? assetStatus.ForRent
+			: status === assetStatus.ForSale
+			? assetStatus.ForSale
+			: status === assetStatus.Sold
+			? assetStatus.Sold
+			: assetStatus.Upcoming
+		: foundProperty.status;
+
+	if (features && features.length > 0) {
+		const featuresFound = await AppDataSource.manager
+			.getRepository(Feature)
+			.createQueryBuilder('feature')
+			.where('feature.id IN (:...features)', { features })
+			.getMany();
+
+		if (!featuresFound || features.length === 0)
+			return new ResponseAndLoggerWrapper({
+				res,
+				req,
+				payload: {
+					...TYPE_NOT_FOUND,
+					details: `Feature Not Found`,
+				},
+			});
+
+		foundProperty.features = featuresFound;
+	}
+
+	if (agency) {
+		const agencyFound = await AppDataSource.manager
+			.getRepository(Agency)
+			.createQueryBuilder('agency')
+			.where('agency.id =:agency', { agency })
+			.getOne();
+
+		if (!agencyFound)
+			return new ResponseAndLoggerWrapper({
+				res,
+				req,
+				payload: {
+					...TYPE_NOT_FOUND,
+					details: 'Agency provided was not found Not Found',
+				},
+			});
+
+		foundProperty.agency = agencyFound;
+	}
+
+	if (type) {
+		const typeFound = await AppDataSource.manager
+			.getRepository(PropertyType)
+			.createQueryBuilder('type')
+			.where('type.id =:type', { type })
+			.getOne();
+
+		if (!typeFound)
+			return new ResponseAndLoggerWrapper({
+				res,
+				req,
+				payload: {
+					...TYPE_NOT_FOUND,
+					details: 'Property type provided was not found Not Found',
+				},
+			});
+
+		foundProperty.type = typeFound;
+	}
+
+	if (coordinates) {
+		const coords: Point = {
+			coordinates: [coordinates.long, coordinates.lat],
+			type: 'Point',
+		};
+
+		foundProperty.coords = coords;
+	}
+
 	return AppDataSource.manager
-		.createQueryBuilder()
-		.update(Property)
-		.set({ ...updateOptions })
-		.where('id =:pid', { pid })
-		.execute()
+		.save(foundProperty)
 		.then(
 			() =>
 				new ResponseAndLoggerWrapper({
@@ -254,9 +361,7 @@ export const updateProperty: (
 					res,
 					req,
 					err,
-					payload: {
-						...TYPE_INTERNAL_ERROR,
-					},
+					payload: TYPE_INTERNAL_ERROR,
 				})
 		);
 };
@@ -280,6 +385,7 @@ export const getAllProperties: (
 		limit = 10,
 		page = 1,
 		address,
+		status,
 		name,
 		type,
 		id,
@@ -321,6 +427,22 @@ export const getAllProperties: (
 	if (type)
 		myManager.andWhere('type.id IN (:...type)', {
 			type,
+		});
+
+	if (status)
+		myManager.andWhere('property.status =:status', {
+			status:
+				status === assetStatus.ForAuction
+					? assetStatus.ForAuction
+					: status === assetStatus.Upcoming
+					? assetStatus.Upcoming
+					: status === assetStatus.ForRent
+					? assetStatus.ForRent
+					: status === assetStatus.ForSale
+					? assetStatus.ForSale
+					: status === assetStatus.Sold
+					? assetStatus.Sold
+					: assetStatus.ForRent,
 		});
 
 	if (name)

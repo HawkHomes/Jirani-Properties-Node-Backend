@@ -4,6 +4,7 @@ import { Profile } from '../entity/Profile';
 import { Perm } from '../entity/Perm';
 import { User } from '../entity/User';
 import { Agency } from '../entity/Agency';
+import { Point } from 'typeorm';
 
 export const createRoles = async () => {
 	//admin
@@ -111,6 +112,11 @@ export const createDefaultAgency = async () => {
 		})
 		.getOne();
 
+	const coords: Point = {
+		coordinates: [0, 0],
+		type: 'Point',
+	};
+
 	if (!foundAgency) {
 		const newAgencyPayload = {
 			address: 'Ronald Ngala Strt, Along Moi Avenue',
@@ -118,14 +124,14 @@ export const createDefaultAgency = async () => {
 			website_url: 'jirani.vercel.app',
 			phone: '254797494509',
 			licence: '',
+			coords,
 		};
 
 		return AppDataSource.createQueryBuilder()
 			.insert()
 			.into(Agency)
-			.values({ ...newAgencyPayload })
+			.values(newAgencyPayload)
 			.execute()
-			.then(console.log)
 			.catch(console.log);
 	} else return;
 };

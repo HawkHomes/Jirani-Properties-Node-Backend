@@ -3,17 +3,18 @@ import {
 	stringArrayQueryBodyValidator,
 	propertyHouseQueryValidator,
 	numericQueryBodyParamValidator,
-	booleanQueryBodyValidator,
 	floatQueryBodyValidator,
 	querySortValidator,
 	limitPageValidator,
 	uuidArrayValidator,
 	uuidValidator,
+	assetStatusQueryBodyValidator,
+	photosValidator,
 } from './reusable';
 
 export const houseUUIDValidator = [
 	...uuidValidator({
-		msg: 'Invalid uuid value for query param house',
+		msg: 'Invalid uuid value for url or query param house',
 		queryString: false,
 		targetField: 'hid',
 		optional: false,
@@ -48,26 +49,22 @@ export const HouseValidator = [
 		optional: false,
 	}),
 
-	...booleanQueryBodyValidator({
-		msg: 'The for_sale field must be a boolean',
-		targetField: 'for_sale',
-		queryString: false,
-		optional: false,
-	}),
-
-	...stringArrayQueryBodyValidator({
-		msg: 'Invalid value provided for photos array',
-		targetField: 'photos',
+	...assetStatusQueryBodyValidator({
+		msg: 'Missing or invalid value provided for the status field',
+		targetField: 'status',
 		queryString: false,
 		optional: false,
 	}),
 
 	...floatQueryBodyValidator({
-		msg: 'Cost field is required',
+		msg: 'The cost field is required',
 		queryString: false,
 		targetField: 'cost',
+		minValue: 3500,
 		optional: false,
 	}),
+
+	...photosValidator,
 ];
 
 export const houseUpdateValidator = [
@@ -104,9 +101,9 @@ export const houseUpdateValidator = [
 		optional: true,
 	}),
 
-	...booleanQueryBodyValidator({
-		msg: 'The for_sale field must be a boolean',
-		targetField: 'for_sale',
+	...assetStatusQueryBodyValidator({
+		msg: 'Invalid value provided for the status field',
+		targetField: 'status',
 		queryString: false,
 		optional: true,
 	}),
@@ -122,6 +119,7 @@ export const houseUpdateValidator = [
 		msg: 'Cost field is required',
 		queryString: false,
 		targetField: 'cost',
+		minValue: 3500,
 		optional: true,
 	}),
 ];
@@ -141,13 +139,6 @@ export const houseQueryValidator = [
 		optional: true,
 	}),
 
-	...booleanQueryBodyValidator({
-		msg: 'Invalid filter for for_sale, the value must be a boolean',
-		targetField: 'for_sale',
-		queryString: true,
-		optional: true,
-	}),
-
 	...numericQueryBodyParamValidator({
 		msg: 'Invalid value for no of available houses',
 		targetField: 'total_available',
@@ -159,6 +150,7 @@ export const houseQueryValidator = [
 		msg: 'Invalid value for minimum cost field',
 		targetField: 'cost.min',
 		queryString: true,
+		minValue: 1000,
 		optional: true,
 	}),
 
@@ -166,6 +158,7 @@ export const houseQueryValidator = [
 		msg: 'Invalid value for maximum cost field',
 		targetField: 'cost.max',
 		queryString: true,
+		minValue: 1000,
 		optional: true,
 	}),
 ];

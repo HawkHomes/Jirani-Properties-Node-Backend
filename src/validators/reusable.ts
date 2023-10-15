@@ -1,7 +1,7 @@
 import { body, param, query } from 'express-validator';
 import * as uuidValidate from 'uuid-validate';
 
-import { OptionalValidatorType, dataOrderingEnum } from '../types';
+import { OptionalValidatorType, assetStatus, dataOrderingEnum } from '../types';
 
 export const booleanQueryBodyValidator = function ({
 	//check if query string or body field
@@ -33,6 +33,45 @@ export const booleanQueryBodyValidator = function ({
 	return [payload.exists({ checkFalsy: false, checkNull: true })];
 };
 
+export const assetStatusQueryBodyValidator = function ({
+	//check if query string or body field
+	// if queryString = true we assume it's meant to validate a query string otherwise query body
+	queryString = false,
+	// check if the field is optional or not
+	optional = false,
+	// targetField to check for the conditions
+	targetField,
+	// custom message for the error response
+	msg = null,
+}: OptionalValidatorType) {
+	const payload = (
+		queryString
+			? query(
+					targetField,
+					msg ?? msg ?? `Missing or Invalid value for ${targetField}`
+			  )
+			: body(targetField, msg ?? `Missing or Invalid value for ${targetField}`)
+	)
+		.escape()
+		.trim()
+		.isString()
+		.customSanitizer((value: string, meta) => {
+			if (!value) throw `Invalid value for ${targetField}`;
+
+			return `${value.at(0).toUpperCase()}${value.substring(1).toLowerCase()}`;
+		})
+		.custom((value, meta) => Object.values(assetStatus).includes(value))
+		.withMessage(`Invalid value provided for ${targetField}`);
+
+	if (optional) payload.optional();
+
+	return [
+		payload
+			.exists({ checkFalsy: true, checkNull: true })
+			.withMessage('The status field missing and is required.'),
+	];
+};
+
 export const stringQueryBodyValidator = function ({
 	//check if query string or body field
 	// if queryString = true we assume it's meant to validate a query string otherwise query body
@@ -52,9 +91,9 @@ export const stringQueryBodyValidator = function ({
 			  )
 			: body(targetField, msg ?? `Missing or Invalid value for ${targetField}`)
 	)
-		.isString()
+		.trim()
 		.escape()
-		.trim();
+		.isString();
 
 	if (optional) payload.optional();
 
@@ -71,6 +110,8 @@ export const stringArrayQueryBodyValidator = function ({
 	targetField,
 	// custom message for the error response
 	msg = null,
+	minValue = null,
+	maxValue = null,
 }: OptionalValidatorType) {
 	const payload = (
 		queryString
@@ -91,6 +132,20 @@ export const stringArrayQueryBodyValidator = function ({
 			return true;
 		});
 
+	if (maxValue)
+		payload
+			.custom((photos: string[], meta) => photos.length < maxValue)
+			.withMessage(
+				`The ${targetField} exceeds the maximum number of ${targetField} required`
+			);
+
+	if (minValue)
+		payload
+			.custom((photos: string[], meta) => photos.length > minValue - 1)
+			.withMessage(
+				`The ${targetField} field must contain atleast ${minValue} items`
+			);
+
 	if (optional) payload.optional();
 
 	return [payload.exists({ checkFalsy: true, checkNull: true })];
@@ -109,6 +164,8 @@ export const numericQueryBodyParamValidator = function ({
 	targetField,
 	// custom message for the error response
 	msg = null,
+	// minimum value to use
+	minValue = null,
 }: OptionalValidatorType) {
 	const payload = (
 		specialParamInBody
@@ -123,7 +180,10 @@ export const numericQueryBodyParamValidator = function ({
 		.escape()
 		.trim()
 		.toInt()
+		.custom((value, meta) => value >= 0)
 		.isNumeric();
+
+	if (minValue) payload.custom((value, meta) => value > minValue);
 
 	if (optional) payload.optional();
 
@@ -140,6 +200,12 @@ export const floatQueryBodyValidator = function ({
 	targetField,
 	// custom message for the error response
 	msg = null,
+
+	// the field the target field depends on
+	dependsOnField = null,
+
+	//minimum value
+	minValue = null,
 }: OptionalValidatorType) {
 	const payload = (
 		queryString
@@ -149,11 +215,23 @@ export const floatQueryBodyValidator = function ({
 			  )
 			: body(targetField, msg ?? `Missing or Invalid value for ${targetField}`)
 	)
+		.if(
+			queryString
+				? query(dependsOnField).exists({ checkFalsy: true, checkNull: true })
+				: body(dependsOnField).exists({ checkFalsy: true, checkNull: true })
+		)
+
 		.escape()
 		.trim()
 		.isNumeric()
 		.toFloat();
 
+	if (minValue)
+		payload
+			.custom((value, meta) => value > minValue)
+			.withMessage(
+				`The ${targetField} cannot be less then the minimum ${targetField}(${minValue})`
+			);
 	if (optional) payload.optional();
 
 	return [payload.exists({ checkFalsy: true, checkNull: true })];
@@ -374,6 +452,13 @@ export const propertyHouseQueryValidator = [
 		optional: true,
 	}),
 
+	...assetStatusQueryBodyValidator({
+		msg: 'Invalid value provided for the status filter param field',
+		targetField: 'status',
+		queryString: true,
+		optional: true,
+	}),
+
 	...propertyTypeQueryValidator,
 ];
 
@@ -392,5 +477,47 @@ export const photosValidator = [
 		queryString: false,
 		targetField: 'photos',
 		optional: false,
+		maxValue: 15,
+		minValue: 3,
 	}),
 ];
+
+export const coordinatesQueryBodyValidator = function ({
+	//check if in query string or params field
+	queryString = false,
+
+	// check if the field is optional or not
+	optional = false,
+	// targetField to check for the conditions
+	targetField = 'coordinates',
+	// custom message for the error response
+	msg = null,
+}: Pick<OptionalValidatorType, 'optional' | 'targetField'> &
+	Partial<Pick<OptionalValidatorType, 'msg' | 'queryString'>>) {
+	const basePayload = queryString
+		? query(targetField, `Apartment Location/${targetField} is missing`)
+		: body(targetField, `Apartment Location/${targetField} is missing`);
+
+	if (optional) basePayload.optional();
+
+	const payload = [
+		...floatQueryBodyValidator({
+			msg: 'Invalid value for latitude field',
+			targetField: `${targetField}.lat`,
+			queryString,
+			optional,
+		}),
+
+		...floatQueryBodyValidator({
+			msg: 'Invalid value for longitude field',
+			targetField: 'coordinates.long',
+			queryString,
+			optional,
+		}),
+	];
+
+	return [
+		basePayload.isObject().exists({ checkFalsy: true, checkNull: true }),
+		...payload,
+	];
+};
