@@ -20,9 +20,6 @@ import { Perm } from './Perm';
 
 @Entity({ name: 'users' })
 export class User extends OauthEntityClass {
-	// @PrimaryGeneratedColumn('uuid')
-	// uid: string;
-
 	@Column({ nullable: false })
 	first_name: string;
 

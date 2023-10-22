@@ -1,15 +1,15 @@
 import { additionInfoBodyValidator } from './global';
 import {
-	stringArrayQueryBodyValidator,
-	propertyHouseQueryValidator,
 	numericQueryBodyParamValidator,
+	assetStatusQueryBodyValidator,
+	propertyHouseQueryValidator,
 	floatQueryBodyValidator,
+	photosOptionalValidator,
 	querySortValidator,
 	limitPageValidator,
 	uuidArrayValidator,
-	uuidValidator,
-	assetStatusQueryBodyValidator,
 	photosValidator,
+	uuidValidator,
 } from './reusable';
 
 export const houseUUIDValidator = [
@@ -108,12 +108,7 @@ export const houseUpdateValidator = [
 		optional: true,
 	}),
 
-	...stringArrayQueryBodyValidator({
-		msg: 'Invalid value provided for photos array',
-		queryString: false,
-		targetField: 'photos',
-		optional: true,
-	}),
+	...photosOptionalValidator,
 
 	...floatQueryBodyValidator({
 		msg: 'Cost field is required',

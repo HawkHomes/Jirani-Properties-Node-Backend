@@ -136,7 +136,7 @@ export const accountActivation: (
 		});
 
 	const userCondition = {
-		uid: foundOtp.user.uid,
+		id: foundOtp.user.id,
 	};
 
 	const myManager = AppDataSource.getRepository(User)
@@ -154,9 +154,9 @@ export const accountActivation: (
 			'user.disabled',
 			'user.active',
 			'role.role',
-			'user.uid',
+			'user.id',
 		])
-		.where('user.uid =:uid', { uid: foundOtp.user.uid });
+		.where('user.id =:id', { id: foundOtp.user.id });
 
 	const foundUser = await myManager.getOne();
 
@@ -204,7 +204,7 @@ export const accountActivation: (
 
 			// await AppDataSource.manager.update(
 			// 	User,
-			// 	{ uid: foundUser.uid},
+			// 	{ id: foundUser.id},
 			// 	{ refToken: refreshToken }
 			// );
 
@@ -263,7 +263,7 @@ export const PasswordResetRequest: (
 		(await AppDataSource.getRepository(PasswordReset)
 			.createQueryBuilder('password_reset')
 			.leftJoinAndSelect('password_reset.user', 'user')
-			.where('user.uid =:uid', { uid: foundUser.uid })
+			.where('user.id =:id', { id: foundUser.id })
 			.getOne()) || new PasswordReset();
 
 	//update the user info
@@ -380,7 +380,7 @@ export const signIn: (req: Request, res: Response) => Promise<any> = async (
 			'user.disabled',
 			'user.active',
 			'role.role',
-			'user.uid',
+			'user.id',
 		]);
 
 	if (email_addr)
@@ -459,7 +459,7 @@ export const signIn: (req: Request, res: Response) => Promise<any> = async (
 						.createQueryBuilder()
 						.update(User)
 						.set({ refToken: refreshToken })
-						.where('uid = :id', { id: user.uid })
+						.where('id = :id', { id: user.id })
 						.execute();
 
 					return new ResponseAndLoggerWrapper({
@@ -489,7 +489,7 @@ export const signOut: (req: Request, res: Response) => Promise<any> = async (
 	req,
 	res
 ) => {
-	const condition: FindOptionsWhere<User> = { uid: req.user.uid };
+	const condition: FindOptionsWhere<User> = { id: req.user.id };
 
 	const user = await AppDataSource.manager.findOne(User, {
 		where: condition,
@@ -543,7 +543,7 @@ export const signOut: (req: Request, res: Response) => Promise<any> = async (
 // 					email_addr: true,
 // 				},
 // 				password: true,
-// 				uid: true,
+// 				id: true,
 // 			},
 // 		})
 // 		.then(
@@ -583,7 +583,7 @@ export const updateAccount: (
 	const { phone, email_addr, avatar, id_no, kra_pin, password } = req.body;
 
 	const currUser = await AppDataSource.manager.findOne(User, {
-		where: { uid: req.user.uid },
+		where: { id: req.user.id },
 	});
 
 	if (email_addr) currUser.profile.email_addr = email_addr;
@@ -622,7 +622,7 @@ export const getCurrentUser: (
 	res: Response
 ) => Promise<any> = async (req, res) => {
 	const condition = {
-		uid: Equal(req.user.uid),
+		id: Equal(req.user.id),
 	};
 
 	return AppDataSource.manager
@@ -656,13 +656,13 @@ export const getUser: (req: Request, res: Response) => Promise<any> = async (
 	req,
 	res
 ) => {
-	const { uid } = req.params;
+	const { id } = req.params;
 
 	const manager = AppDataSource.manager
 		.getRepository(User)
 		.createQueryBuilder('user')
 		.leftJoinAndSelect('user.profile', 'profile')
-		.where('user.uid =:uid', { uid });
+		.where('user.id =:id', { id });
 
 	return manager
 		.getOne()
@@ -702,30 +702,30 @@ export const getAllUsers: (
 		kra_pin,
 		phone,
 		id_no,
-		uid,
+		id,
 	} = req.query;
 
 	const manager = AppDataSource.manager
 		.getRepository(User)
 		.createQueryBuilder('user')
 		.leftJoinAndSelect('user.profile', 'profile')
-		.where('user.uid !=:currUId', { currUId: req.user.uid });
+		.where('user.id !=:currUId', { currUId: req.user.id });
 
 	if (last_name) manager.andWhere('user.last_name =:last_name', { last_name });
 
 	if (first_name)
 		manager.andWhere('user.first_name =:first_name', { first_name });
 
-	if (uid) manager.andWhere('user.uid =:uid', { uid });
+	if (id) manager.andWhere('user.id =:id', { id });
 
 	if (email_addr)
 		manager.andWhere('profile.email_addr =:email_addr', { email_addr });
 
-	if (kra_pin) manager.andWhere('profile.kra_pin =:uid', { kra_pin });
+	if (kra_pin) manager.andWhere('profile.kra_pin =:kra_pin', { kra_pin });
 
-	if (phone) manager.andWhere('profile.phone =:uid', { phone });
+	if (phone) manager.andWhere('profile.phone =:phone', { phone });
 
-	if (id_no) manager.andWhere('profile.id_no =:uid', { id_no });
+	if (id_no) manager.andWhere('profile.id_no =:id_no', { id_no });
 
 	return manager
 		.skip((parseInt(page as string) - 1) * parseInt(limit as string))
@@ -760,7 +760,7 @@ export const deleteUser: (req: Request, res: Response) => Promise<any> = async (
 	res
 ) => {
 	const condition = {
-		uid: req.user.uid,
+		id: req.user.id,
 	};
 
 	return AppDataSource.manager
@@ -793,11 +793,11 @@ export const removeUser: (req: Request, res: Response) => Promise<any> = async (
 	req,
 	res
 ) => {
-	const { uid } = req.params;
+	const { id } = req.params;
 
 	return AppDataSource.manager
 		.softDelete(User, {
-			uid,
+			id,
 		})
 		.then(
 			() =>

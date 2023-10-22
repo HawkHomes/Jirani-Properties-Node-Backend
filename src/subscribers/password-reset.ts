@@ -9,8 +9,8 @@ import {
 
 import { PasswordReset } from '../entity/PasswordReset';
 import {
+	awsSendMail,
 	deleteOutdatedPasswordRecords,
-	sendMail,
 	sendSms,
 } from '../utils/common';
 import { AccountPassword } from '../templates';
@@ -60,14 +60,15 @@ export class PasswordResetSubscriber
 				phone: passwordResetEntity.user.profile.phone,
 			});
 
-			return sendMail({
+			return awsSendMail({
 				template: AccountPassword({
 					first_name: passwordResetEntity.user.first_name,
 					last_name: passwordResetEntity.user.last_name,
 					otp: passwordResetEntity.token,
 				}),
 				subject: `${process.env.COMPANY_NAME} Password reset`,
-				email_addr: passwordResetEntity.user.profile.email_addr,
+				email_addr: 'technical@jiraniproperties.com',
+				// email_addr: passwordResetEntity.user.profile.email_addr,
 			});
 		}
 	}
@@ -82,7 +83,7 @@ export class PasswordResetSubscriber
 			phone: passwordResetEntity.user.profile.phone,
 		});
 
-		return sendMail({
+		return awsSendMail({
 			template: AccountPassword({
 				first_name: passwordResetEntity.user.first_name,
 				last_name: passwordResetEntity.user.last_name,

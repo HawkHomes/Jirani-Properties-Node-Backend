@@ -71,7 +71,7 @@ router.post(
 
 // delete user
 router.delete(
-	'/delete/:uid',
+	'/delete/:id',
 	verifyAuthToken,
 	isAccUsable,
 	isAdmin,
@@ -113,7 +113,7 @@ router.post(
 
 // get single user
 router.get(
-	'/:uid',
+	'/:id',
 	verifyAuthToken,
 	isAdmin,
 	isAccUsable,

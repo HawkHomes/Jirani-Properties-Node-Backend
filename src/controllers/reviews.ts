@@ -22,7 +22,7 @@ export const createReview: (
 
 	const owner = await AppDataSource.getRepository(User)
 		.createQueryBuilder('user')
-		.where('user.uid =:uid', { uid: req.user.uid })
+		.where('user.id =:id', { id: req.user.id })
 		.getOne();
 
 	const property = await AppDataSource.getRepository(Property)

@@ -40,17 +40,18 @@ export const createPropertyType: (
 
 	return AppDataSource.manager
 		.save(newPropertyType)
-		.then(
-			(savedPropertyType) =>
-				new ResponseAndLoggerWrapper({
-					req,
-					res,
-					payload: {
-						data: savedPropertyType,
-						...TYPE_ITEM_CREATED,
-					},
-				})
-		)
+		.then((savedPropertyType) => {
+			delete savedPropertyType?.date_deleted;
+
+			return new ResponseAndLoggerWrapper({
+				req,
+				res,
+				payload: {
+					data: savedPropertyType,
+					...TYPE_ITEM_CREATED,
+				},
+			});
+		})
 		.catch(
 			(err: TypeORMError) =>
 				new ResponseAndLoggerWrapper({

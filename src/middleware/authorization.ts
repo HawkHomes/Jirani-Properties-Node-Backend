@@ -68,7 +68,7 @@ export const isAccUsable: (
 	next: NextFunction
 ) => Promise<Response | any> = async (req, res, next) =>
 	AppDataSource.manager
-		.findOne(User, { where: { uid: req.user.uid } })
+		.findOne(User, { where: { id: req.user.id } })
 		.then((user) =>
 			user.active
 				? user.disabled

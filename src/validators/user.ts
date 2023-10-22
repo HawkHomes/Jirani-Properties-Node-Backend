@@ -13,7 +13,7 @@ export const userUUIDValidator = [
 	...uuidValidator({
 		msg: 'Invalid uuid param provided',
 		queryString: false,
-		targetField: 'uid',
+		targetField: 'id',
 		optional: false,
 	}),
 ];

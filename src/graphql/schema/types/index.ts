@@ -223,7 +223,7 @@ export const User = new GraphQLObjectType({
 		disabled: BooleanTypeGeneric,
 		active: BooleanTypeGeneric,
 		profile: { type: Profile },
-		uid: IdTypeGeneric,
+		id: IdTypeGeneric,
 		perm: { type: Perm },
 	},
 });

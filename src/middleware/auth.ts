@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 const jsonwebtoken = require('jsonwebtoken');
 
+import { ResponseAndLoggerWrapper } from '../logger/Logger';
 import { TYPE_UNAUTHORIZED } from '../utils/constants';
 import { AppDataSource } from '../data-source';
 import { userInterface } from '../types';
 import { User } from '../entity/User';
-import { ResponseAndLoggerWrapper } from '../logger/Logger';
 
 export const verifyAuthToken: (
 	req: Request,
@@ -45,7 +45,7 @@ export const verifyAuthToken: (
 
 			const confirmUser = await AppDataSource.manager.findOne(User, {
 				where: {
-					uid: decoded.uid,
+					id: decoded.id,
 				},
 			});
 
@@ -54,7 +54,7 @@ export const verifyAuthToken: (
 				decoded.first_name !== confirmUser.first_name ||
 				decoded.perm.role !== (await confirmUser.perm).role ||
 				decoded.last_name !== confirmUser.last_name ||
-				decoded.uid !== confirmUser.uid
+				decoded.id !== confirmUser.id
 			)
 				return new ResponseAndLoggerWrapper({
 					res,
@@ -112,7 +112,7 @@ export const verifyRefToken: (
 
 			const confirmUser = await AppDataSource.manager.findOne(User, {
 				where: {
-					uid: decoded.uid,
+					id: decoded.id,
 				},
 			});
 

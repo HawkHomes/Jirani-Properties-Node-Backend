@@ -79,7 +79,7 @@ export const createProperty: (
 		});
 
 	const condition = {
-		uid: Equal(req?.user?.uid),
+		id: Equal(req?.user?.id),
 	};
 
 	const user = await AppDataSource.manager.findOne(User, {
@@ -227,7 +227,7 @@ export const updateProperty: (
 
 	const user = await AppDataSource.manager
 		.createQueryBuilder(User, 'user')
-		.where('user.uid =:uid', { uid: req.user.uid })
+		.where('user.id =:id', { id: req.user.id })
 		.getOne();
 
 	const propManager = AppDataSource.manager
@@ -236,7 +236,7 @@ export const updateProperty: (
 		.where('property.id =:pid', { pid });
 
 	if ((await user.perm.role) !== roleInterface.Admin)
-		propManager.andWhere('property.owner =:owner', { owner: req.user.uid });
+		propManager.andWhere('property.owner =:owner', { owner: req.user.id });
 
 	//get a single property
 	const foundProperty = await propManager.getOne();
@@ -575,7 +575,7 @@ export const removeProperty: (
 	const user = await AppDataSource.manager
 		.getRepository(User)
 		.createQueryBuilder('user')
-		.where('user.uid =:uid', { uid: req.user.uid })
+		.where('user.id =:id', { id: req.user.id })
 		.getOne();
 
 	const property = AppDataSource.manager
@@ -584,7 +584,7 @@ export const removeProperty: (
 		.where('property.id =:pid', { pid });
 
 	if ((await user.perm.role) === roleInterface.Admin)
-		property.andWhere('property.owner =:owner', { owner: req.user.uid });
+		property.andWhere('property.owner =:owner', { owner: req.user.id });
 
 	if (!(await property.getOne()))
 		return new ResponseAndLoggerWrapper({
@@ -602,7 +602,7 @@ export const removeProperty: (
 		.where('id =:pid', { pid });
 
 	if ((await user.perm.role) === roleInterface.Admin)
-		mainManager.andWhere('owner =:owner', { owner: req.user.uid });
+		mainManager.andWhere('owner =:owner', { owner: req.user.id });
 
 	return mainManager
 		.execute()

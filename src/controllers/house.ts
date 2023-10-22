@@ -45,7 +45,7 @@ export const createHouse: (
 		.getRepository(Property)
 		.createQueryBuilder('property')
 		.where('property.id =:pid', { pid })
-		.andWhere('property.owner =:owner', { owner: req.user.uid })
+		.andWhere('property.owner =:owner', { owner: req.user.id })
 		.getOne();
 
 	if (!foundProperty)
@@ -151,7 +151,7 @@ export const updateHouse: (
 
 	req.user.perm.role !== roleInterface.Admin
 		? propertyManager.andWhere('property.owner =:owner', {
-				owner: req.user.uid,
+				owner: req.user.id,
 		  })
 		: null;
 
@@ -687,7 +687,7 @@ export const removeHouse: (
 
 	req.user.perm.role === roleInterface.Admin
 		? null
-		: myManager.andWhere('property.owner =:owner', { owner: req.user.uid });
+		: myManager.andWhere('property.owner =:owner', { owner: req.user.id });
 
 	const property = await myManager.getOne();
 	if (!property)

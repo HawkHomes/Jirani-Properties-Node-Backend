@@ -8,11 +8,7 @@ passport.use(
 	new googleStrategy(
 		{
 			clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
-			callbackURL: `${
-				process.env.NODE_ENV === 'production'
-					? 'https://api.jiraniproperties.com'
-					: 'http://localhost:4000'
-			}/api/users/oauth/google/callback`,
+			callbackURL: `https://api.jiraniproperties.com/api/users/oauth/google/callback`,
 			clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
 		},
 		async (accessToken, refreshToken, profile, cb) => {
@@ -46,11 +42,7 @@ passport.use(
 		{
 			clientSecret: process.env.FACEBOOK_APP_SECRET,
 			clientID: process.env.FACEBOOK_APP_ID,
-			callbackURL: `${
-				process.env.NODE_ENV === 'production'
-					? 'https://api.jiraniproperties.com'
-					: 'http://localhost:4000'
-			}/api/users/oauth/facebook/callback`,
+			callbackURL: `https://api.jiraniproperties.com/api/users/oauth/facebook/callback`,
 		},
 		async (accessToken, refreshToken, profile, cb) => {
 			const { provider } = profile;

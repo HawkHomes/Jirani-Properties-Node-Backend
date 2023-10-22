@@ -72,6 +72,55 @@ export const assetStatusQueryBodyValidator = function ({
 	];
 };
 
+export const photosCustomValidator = function ({
+	// targetField to check for the conditions
+	targetField,
+	// custom message for the error response
+	msg = null,
+	minValue = null,
+	maxValue = null,
+	optional = false,
+}: Pick<
+	OptionalValidatorType,
+	'maxValue' | 'minValue' | 'targetField' | 'msg' | 'optional'
+>) {
+	const payload = body(
+		targetField,
+		msg ?? `Missing or Invalid value for ${targetField}`
+	)
+		.isArray()
+		.toArray()
+		.withMessage(msg)
+		.custom((value: string[], meta) => {
+			value.map((singleValue) => {
+				if (typeof singleValue !== 'string')
+					throw msg ?? `Invalid string provided for field ${targetField}`;
+			});
+			return true;
+		})
+		.customSanitizer((input: string[], meta) =>
+			input.map((currItem) => currItem.split('?').at(0).split('/').at(-1))
+		);
+
+	if (maxValue)
+		payload
+			.custom((currItem: string[], meta) => currItem.length <= maxValue)
+			.withMessage(
+				`The ${targetField} exceeds the maximum number of ${targetField} required`
+			);
+
+	if (minValue)
+		payload
+			.custom((currItem: string[], meta) => currItem.length >= minValue - 1)
+			.withMessage(
+				`The ${targetField} field must contain atleast ${minValue} items`
+			);
+
+	if (optional) payload.optional();
+
+	return [payload.exists({ checkFalsy: true, checkNull: true })];
+};
+
 export const stringQueryBodyValidator = function ({
 	//check if query string or body field
 	// if queryString = true we assume it's meant to validate a query string otherwise query body
@@ -134,14 +183,14 @@ export const stringArrayQueryBodyValidator = function ({
 
 	if (maxValue)
 		payload
-			.custom((photos: string[], meta) => photos.length < maxValue)
+			.custom((currItem: string[], meta) => currItem.length <= maxValue)
 			.withMessage(
 				`The ${targetField} exceeds the maximum number of ${targetField} required`
 			);
 
 	if (minValue)
 		payload
-			.custom((photos: string[], meta) => photos.length > minValue - 1)
+			.custom((currItem: string[], meta) => currItem.length >= minValue - 1)
 			.withMessage(
 				`The ${targetField} field must contain atleast ${minValue} items`
 			);
@@ -166,6 +215,8 @@ export const numericQueryBodyParamValidator = function ({
 	msg = null,
 	// minimum value to use
 	minValue = null,
+	// max value to use
+	maxValue = null,
 }: OptionalValidatorType) {
 	const payload = (
 		specialParamInBody
@@ -183,7 +234,19 @@ export const numericQueryBodyParamValidator = function ({
 		.custom((value, meta) => value >= 0)
 		.isNumeric();
 
-	if (minValue) payload.custom((value, meta) => value > minValue);
+	if (maxValue)
+		payload
+			.custom((value, meta) => value <= maxValue)
+			.withMessage(
+				`The value for ${targetField} exceeds the maximum value required`
+			);
+
+	if (minValue)
+		payload
+			.custom((value, meta) => value >= minValue)
+			.withMessage(
+				`The value for ${targetField} is below the minimum value required`
+			);
 
 	if (optional) payload.optional();
 
@@ -472,9 +535,18 @@ export const featuresValidator = [
 ];
 
 export const photosValidator = [
-	...stringArrayQueryBodyValidator({
+	...photosCustomValidator({
 		msg: 'Invalid value provided for photos array',
-		queryString: false,
+		targetField: 'photos',
+		optional: false,
+		maxValue: 15,
+		minValue: 3,
+	}),
+];
+
+export const photosOptionalValidator = [
+	...photosCustomValidator({
+		msg: 'Invalid value provided for photos array',
 		targetField: 'photos',
 		optional: false,
 		maxValue: 15,

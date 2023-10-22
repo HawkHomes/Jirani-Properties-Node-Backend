@@ -180,8 +180,8 @@ export const getAllCategories: (
 			: manager.where('category.id =:id', { id });
 
 	return manager
-		.orderBy(
-			'category.name',
+		.addOrderBy(
+			'category.added_on',
 			sort === dataOrderingEnum.Ascending ? 'ASC' : 'DESC'
 		)
 		.skip((parseInt(`${page}`) - 1) * parseInt(`${limit}`))

@@ -1,4 +1,13 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+
+import {
+	DeleteObjectsCommand,
+	DeleteObjectsCommandInput,
+	PutObjectAclCommandInput,
+	PutObjectCommand,
+	S3Client,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { Point, TypeORMError } from 'typeorm';
@@ -6,7 +15,6 @@ import * as nodemailer from 'nodemailer';
 import { createRequire } from 'module';
 import * as jwt from 'jsonwebtoken';
 import { readdirSync } from 'fs';
-
 const Twilio = require('twilio');
 
 // dev deps
@@ -291,12 +299,17 @@ export const oAUthCallBackHandler = async ({
 	avatar: string;
 	cb: any;
 }) => {
-	const userExists = await AppDataSource.manager
+	const entityManager = AppDataSource.manager
 		.getRepository(User)
 		.createQueryBuilder('user')
 		.leftJoinAndSelect('user.perm', 'perm')
-		.where('user.oauth_id =:oauth_id', { oauth_id })
-		.getOne();
+		.leftJoinAndSelect('user.profile', 'profile')
+		.where('user.oauth_id =:oauth_id', { oauth_id });
+
+	if (email_addr)
+		entityManager.orWhere('profile.email_addr =:email_addr', { email_addr });
+
+	const userExists = await entityManager.getOne();
 
 	if (userExists) {
 		delete userExists.password;
@@ -372,33 +385,11 @@ export const oAUthCallBackHandler = async ({
 		.catch((err: TypeORMError) => cb(null, err.message));
 };
 
-export const awsBucket = () => {
-	const client = new S3Client({
-		credentials: { accessKeyId: '', secretAccessKey: '' },
-	});
-
-	const command = new PutObjectCommand({
-		Body: Buffer.from(''),
-		ContentType: '',
-		Bucket: '',
-		Key: '',
-	});
-
-	client
-		.send(command)
-		.then((payload) => {})
-		.catch((err) => {});
-
-	// s3.getSignedUrl();
-
-	// s3.upload({});
-};
-
 export const deleteOutdatedPasswordRecords = async () => {
 	const oneHourAgo = new Date();
 	oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
-	AppDataSource.getRepository(PasswordReset)
+	return AppDataSource.getRepository(PasswordReset)
 		.createQueryBuilder()
 		.delete()
 		.from(PasswordReset)
@@ -406,5 +397,82 @@ export const deleteOutdatedPasswordRecords = async () => {
 		.orWhere('updated <=:oneHourAgo', { oneHourAgo })
 		.execute()
 		.then(console.log)
+		.catch(console.log);
+};
+
+export const awsBucketPut = async ({
+	s3: client,
+	configs,
+}: {
+	configs: PutObjectAclCommandInput;
+	s3: S3Client;
+}) => getSignedUrl(client, new PutObjectCommand(configs), { expiresIn: 60 });
+
+export const awsDeleteItem = async ({
+	s3: client,
+	configs,
+}: {
+	configs: DeleteObjectsCommandInput;
+	s3: S3Client;
+}) => {
+	return client
+		.send(new DeleteObjectsCommand(configs))
+		.then((payload) => {
+			console.log(payload);
+			client.destroy();
+		})
+		.catch(console.log);
+};
+
+export const awsSendMail: ({
+	email_addr,
+	template,
+	subject,
+}: emailInterface) => Promise<void> = async ({
+	email_addr,
+	template,
+	subject,
+}: emailInterface) => {
+	const sesClient = new SESClient({
+		credentials: {
+			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_SES,
+			accessKeyId: process.env.AWS_ACCESS_KEY_ID_SES,
+		},
+		region: process.env.SES_REGION,
+	});
+
+	const mailSenderCommand = new SendEmailCommand({
+		Destination: {
+			ToAddresses: [email_addr],
+			BccAddresses: [],
+			CcAddresses: [],
+		},
+		Message: {
+			Body: {
+				Html: {
+					Charset: 'UTF-8',
+					Data: template,
+				},
+				// Text: {
+				// 	Charset: 'UTF-8',
+				// 	Data: 'Hello world',
+				// },
+			},
+			Subject: {
+				Charset: 'UTF-8',
+				Data: subject,
+			},
+		},
+		ReplyToAddresses: [],
+		Source: 'noreply@jiraniproperties.com',
+	});
+
+	sesClient
+		.send(mailSenderCommand)
+		.then((p) => {
+			sesClient.destroy();
+
+			console.log(p);
+		})
 		.catch(console.log);
 };

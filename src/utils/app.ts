@@ -16,8 +16,6 @@ app.use(morgan('tiny'));
 
 app.set('trust proxy', true);
 
-// app.use(helmet());
-
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
 // add cors

@@ -35,7 +35,7 @@ AppDataSource.initialize()
 		// create default user
 		createDefaultUser();
 
-		app.listen(process.env.SERVER_PORT || 4000, () =>
+		return app.listen(process.env.SERVER_PORT || 4000, () =>
 			console.log(
 				`Server is running on  http://localhost:${
 					process.env.SERVER_PORT || 4000

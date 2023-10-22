@@ -5,7 +5,7 @@ import {
 	UpdateEvent,
 } from 'typeorm';
 
-import { generateOtp, sendMail, sendSms } from '../utils/common';
+import { awsSendMail, generateOtp, sendSms } from '../utils/common';
 import { ActivateAccount } from '../entity/Activate';
 import { User } from '../entity/User';
 import { AccountNew } from '../templates';
@@ -59,7 +59,17 @@ export class UserSub implements EntitySubscriberInterface<User> {
 					phone: userEntity.profile.phone,
 				});
 
-				return sendMail({
+				// return sendMail({
+				// 	template: AccountNew({
+				// 		first_name: userEntity.first_name,
+				// 		last_name: userEntity.last_name,
+				// 		otp: acc.otp,
+				// 	}),
+				// 	subject: `${process.env.COMPANY_NAME} Account Activation`,
+				// 	email_addr: userEntity.profile.email_addr,
+				// });
+
+				return awsSendMail({
 					template: AccountNew({
 						first_name: userEntity.first_name,
 						last_name: userEntity.last_name,

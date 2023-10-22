@@ -6,6 +6,30 @@ const passport = require('passport');
 
 const router = Router();
 
+const oauthCallback = (req: Request, res: Response) => {
+	console.log(req, req?.user);
+	if (req.user) {
+		//@ts-ignore
+		res.setHeader('Set-Cookie', `token=${req.user}`);
+
+		return res.redirect(`${process.env.FRONTEND_CLIENT}profile/settings`);
+	}
+	return req.user
+		? new ResponseAndLoggerWrapper({
+				payload: { ...TYPE_OK, data: req.user },
+				req,
+				res,
+		  })
+		: new ResponseAndLoggerWrapper({
+				req,
+				res,
+				payload: {
+					...TYPE_UNAUTHORIZED,
+					details: 'There was a problem autheticating your account',
+				},
+		  });
+};
+
 router.get(
 	'/google',
 	passport.authenticate('google', {
@@ -21,6 +45,12 @@ router.get(
 	'/google/callback/',
 	passport.authenticate('google', { session: false }),
 	(req: Request, res: Response) => {
+		if (req.user) {
+			return res.redirect(
+				//@ts-ignore
+				`${process.env.FRONTEND_CLIENT}auth?token=${req.user.accessToken}`
+			);
+		}
 		return req.user
 			? new ResponseAndLoggerWrapper({
 					payload: { ...TYPE_OK, data: req.user },
@@ -58,7 +88,13 @@ router.get(
 router.get(
 	'/facebook/callback',
 	passport.authenticate('facebook', { session: false }),
-	(req: Request, res: Response) =>
+	(req: Request, res: Response) => {
+		if (req.user) {
+			return res.redirect(
+				//@ts-ignore
+				`${process.env.FRONTEND_CLIENT}auth?token=${req.user.accessToken}`
+			);
+		}
 		req.user
 			? new ResponseAndLoggerWrapper({
 					req,
@@ -75,7 +111,8 @@ router.get(
 						...TYPE_UNAUTHORIZED,
 						details: 'There was a problem autheticating your account',
 					},
-			  })
+			  });
+	}
 );
 
 module.exports = router;

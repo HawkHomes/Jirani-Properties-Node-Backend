@@ -11,7 +11,7 @@ export class Profile extends BaseClass {
 	@Column({ name: 'email_addr', unique: true })
 	email_addr: string;
 
-	@Column({ name: 'phone', nullable: false })
+	@Column({ name: 'phone', nullable: true })
 	phone: string;
 
 	@Column({ name: 'id_no', nullable: true })

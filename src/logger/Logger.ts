@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { responseWrapper, sendMail } from '../utils/common';
+import { awsSendMail, responseWrapper } from '../utils/common';
 import {
 	ClassLogerType,
 	LoggerClassInterface,
@@ -28,7 +28,7 @@ export class ResponseAndLoggerWrapper implements LoggerClassInterface {
 	}
 
 	async sendLoggerMail({ description }: { description: string }) {
-		sendMail({
+		awsSendMail({
 			subject: `Logger Error@${process.env.COMPANY_NAME}`,
 			email_addr: process.env.DEV_MAIL,
 			template: DevLogsTemplate({

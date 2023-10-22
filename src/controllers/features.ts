@@ -182,32 +182,34 @@ export const getAllFeatures: (
 			String(sort).toLowerCase() === 'ASC' ? 'ASC' : 'DESC'
 		);
 
-	return manager
-		.take(parseInt(`${limit}`))
-		.skip((parseInt(page as string) - 1) * parseInt(limit as string))
-		.getManyAndCount()
-		.then(
-			([data, count]) =>
-				new ResponseAndLoggerWrapper({
-					req,
-					res,
-					payload: {
-						data: { data, count },
-						...TYPE_OK,
-					},
-				})
-		)
-		.catch(
-			(err: Error) =>
-				new ResponseAndLoggerWrapper({
-					err,
-					req,
-					res,
-					payload: {
-						...TYPE_BAD_REQUEST,
-					},
-				})
-		);
+	return (
+		manager
+			// .take(parseInt(`${limit}`))
+			// .skip((parseInt(page as string) - 1) * parseInt(limit as string))
+			.getManyAndCount()
+			.then(
+				([data, count]) =>
+					new ResponseAndLoggerWrapper({
+						req,
+						res,
+						payload: {
+							data: { data, count },
+							...TYPE_OK,
+						},
+					})
+			)
+			.catch(
+				(err: Error) =>
+					new ResponseAndLoggerWrapper({
+						err,
+						req,
+						res,
+						payload: {
+							...TYPE_BAD_REQUEST,
+						},
+					})
+			)
+	);
 };
 
 // delete feature

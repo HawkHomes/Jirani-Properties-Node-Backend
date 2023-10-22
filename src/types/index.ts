@@ -64,7 +64,7 @@ export interface userInterface extends commonUser {
 	is_landlord: boolean;
 	password?: string;
 	perm: Perm;
-	uid: string;
+	id: string;
 }
 
 export interface PasswordResetInterface

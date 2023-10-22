@@ -3,17 +3,18 @@ import { body } from 'express-validator';
 import { additionInfoBodyValidator } from './global';
 import {
 	numericQueryBodyParamValidator,
+	coordinatesQueryBodyValidator,
+	assetStatusQueryBodyValidator,
 	propertyHouseQueryValidator,
 	stringQueryBodyValidator,
 	floatQueryBodyValidator,
 	querySortValidator,
+	uuidArrayValidator,
 	featuresValidator,
 	limitPageValidator,
 	photosValidator,
 	uuidValidator,
-	uuidArrayValidator,
-	assetStatusQueryBodyValidator,
-	coordinatesQueryBodyValidator,
+	photosOptionalValidator,
 } from './reusable';
 
 export const propertyUUidValidator = [
@@ -53,7 +54,7 @@ export const propertyValidator = [
 		specialParamInBody: true,
 		targetField: 'agency',
 		queryString: false,
-		optional: false,
+		optional: true,
 	}),
 
 	...numericQueryBodyParamValidator({
@@ -196,6 +197,8 @@ export const propertyUpdateValidator = [
 		targetField: 'features',
 		optional: true,
 	}),
+
+	...photosOptionalValidator,
 ];
 
 export const propertyQueryValidator = [
